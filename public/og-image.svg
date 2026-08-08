@@ -2,65 +2,87 @@
   <!-- Background -->
   <rect width="1200" height="630" fill="#1a1a2e"/>
 
-  <!-- Grid lines (subtle) -->
-  <line x1="0" y1="210" x2="1200" y2="210" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
-  <line x1="0" y1="420" x2="1200" y2="420" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
-  <line x1="400" y1="0" x2="400" y2="630" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
-  <line x1="800" y1="0" x2="800" y2="630" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1"/>
+  <!-- Top accent bar -->
+  <rect width="1200" height="6" fill="#4ade80" opacity="0.9"/>
+  <!-- Bottom accent bar -->
+  <rect y="624" width="1200" height="6" fill="#4ade80" opacity="0.9"/>
 
-  <!-- Falling coins (decorative) -->
-  <circle cx="130" cy="100" r="28" fill="#facc15" opacity="0.9"/>
-  <circle cx="130" cy="100" r="28" fill="none" stroke="#a16207" stroke-width="4"/>
-  <text x="130" y="109" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
+  <!-- Glow behind title -->
+  <ellipse cx="600" cy="255" rx="500" ry="90" fill="#4ade80" opacity="0.06"/>
 
-  <circle cx="310" cy="210" r="22" fill="#facc15" opacity="0.7"/>
-  <circle cx="310" cy="210" r="22" fill="none" stroke="#a16207" stroke-width="3"/>
-  <text x="310" y="218" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
+  <!-- Falling coins — left side -->
+  <circle cx="95" cy="95" r="32" fill="#facc15"/>
+  <circle cx="95" cy="95" r="32" fill="none" stroke="#a16207" stroke-width="5"/>
+  <text x="95" y="106" font-family="Arial" font-size="30" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
 
-  <circle cx="520" cy="80" r="18" fill="#facc15" opacity="0.6"/>
-  <circle cx="520" cy="80" r="18" fill="none" stroke="#a16207" stroke-width="2.5"/>
-  <text x="520" y="87" font-family="Arial" font-size="15" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
+  <circle cx="230" cy="200" r="22" fill="#facc15" opacity="0.8"/>
+  <circle cx="230" cy="200" r="22" fill="none" stroke="#a16207" stroke-width="3.5"/>
+  <text x="230" y="209" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
 
-  <circle cx="900" cy="130" r="26" fill="#facc15" opacity="0.85"/>
-  <circle cx="900" cy="130" r="26" fill="none" stroke="#a16207" stroke-width="4"/>
-  <text x="900" y="139" font-family="Arial" font-size="22" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
+  <circle cx="140" cy="330" r="16" fill="#facc15" opacity="0.5"/>
+  <circle cx="140" cy="330" r="16" fill="none" stroke="#a16207" stroke-width="2.5"/>
+  <text x="140" y="337" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
 
-  <circle cx="1070" cy="70" r="20" fill="#facc15" opacity="0.65"/>
-  <circle cx="1070" cy="70" r="20" fill="none" stroke="#a16207" stroke-width="3"/>
-  <text x="1070" y="78" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
+  <!-- Falling coins — right side -->
+  <circle cx="1105" cy="90" r="30" fill="#facc15"/>
+  <circle cx="1105" cy="90" r="30" fill="none" stroke="#a16207" stroke-width="5"/>
+  <text x="1105" y="101" font-family="Arial" font-size="28" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
 
-  <circle cx="720" cy="170" r="16" fill="#facc15" opacity="0.55"/>
-  <circle cx="720" cy="170" r="16" fill="none" stroke="#a16207" stroke-width="2"/>
-  <text x="720" y="177" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
+  <circle cx="980" cy="180" r="20" fill="#facc15" opacity="0.75"/>
+  <circle cx="980" cy="180" r="20" fill="none" stroke="#a16207" stroke-width="3"/>
+  <text x="980" y="188" font-family="Arial" font-size="18" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
 
-  <!-- Basket (player) -->
-  <rect x="510" y="480" width="180" height="38" rx="6" fill="#4ade80"/>
-  <rect x="522" y="462" width="156" height="18" rx="4" fill="#22c55e"/>
+  <circle cx="1060" cy="310" r="14" fill="#facc15" opacity="0.5"/>
+  <circle cx="1060" cy="310" r="14" fill="none" stroke="#a16207" stroke-width="2"/>
+  <text x="1060" y="317" font-family="Arial" font-size="13" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
 
-  <!-- Particle sparkles around last caught coin -->
-  <circle cx="600" cy="420" r="6" fill="#facc15" opacity="0.9"/>
-  <circle cx="572" cy="400" r="4" fill="#facc15" opacity="0.7"/>
-  <circle cx="628" cy="400" r="4" fill="#facc15" opacity="0.7"/>
-  <circle cx="558" cy="430" r="3" fill="#facc15" opacity="0.5"/>
-  <circle cx="642" cy="430" r="3" fill="#facc15" opacity="0.5"/>
+  <!-- Coin above basket (being caught) -->
+  <circle cx="600" cy="430" r="24" fill="#facc15"/>
+  <circle cx="600" cy="430" r="24" fill="none" stroke="#a16207" stroke-width="4"/>
+  <text x="600" y="440" font-family="Arial" font-size="22" font-weight="bold" text-anchor="middle" fill="#a16207">$</text>
 
-  <!-- Title -->
-  <text x="600" y="280" font-family="Arial, sans-serif" font-size="88" font-weight="bold" text-anchor="middle" fill="#4ade80">Catch the Coin</text>
+  <!-- Sparkle particles around caught coin -->
+  <circle cx="566" cy="408" r="5" fill="#facc15" opacity="0.9"/>
+  <circle cx="634" cy="408" r="5" fill="#facc15" opacity="0.9"/>
+  <circle cx="550" cy="438" r="3.5" fill="#facc15" opacity="0.65"/>
+  <circle cx="650" cy="438" r="3.5" fill="#facc15" opacity="0.65"/>
+  <circle cx="576" cy="390" r="3" fill="#facc15" opacity="0.5"/>
+  <circle cx="624" cy="390" r="3" fill="#facc15" opacity="0.5"/>
 
-  <!-- Tagline -->
-  <text x="600" y="345" font-family="Arial, sans-serif" font-size="32" text-anchor="middle" fill="#ffffff" opacity="0.75">Free browser arcade game — no download required</text>
+  <!-- Basket (player paddle) -->
+  <rect x="500" y="478" width="200" height="42" rx="7" fill="#4ade80"/>
+  <rect x="514" y="460" width="172" height="20" rx="5" fill="#22c55e"/>
 
-  <!-- HUD chips -->
-  <rect x="160" y="370" width="160" height="44" rx="8" fill="#ffffff" fill-opacity="0.07"/>
-  <text x="240" y="397" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#ffd93d">⏱ 60 sec</text>
+  <!-- Score HUD chip -->
+  <rect x="28" y="460" width="160" height="52" rx="10" fill="#ffffff" fill-opacity="0.08"/>
+  <text x="108" y="481" font-family="Arial" font-size="13" text-anchor="middle" fill="#888888">SCORE</text>
+  <text x="108" y="502" font-family="Arial" font-size="22" font-weight="bold" text-anchor="middle" fill="#ffffff">1240</text>
 
-  <rect x="520" y="370" width="160" height="44" rx="8" fill="#ffffff" fill-opacity="0.07"/>
-  <text x="600" y="397" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#88d0ff">3 Stages</text>
+  <!-- Lives HUD chip -->
+  <rect x="1012" y="460" width="160" height="52" rx="10" fill="#ffffff" fill-opacity="0.08"/>
+  <text x="1092" y="481" font-family="Arial" font-size="13" text-anchor="middle" fill="#888888">LIVES</text>
+  <text x="1092" y="502" font-family="Arial" font-size="20" font-weight="bold" text-anchor="middle" fill="#ff6b6b">♥ ♥ ♥</text>
 
-  <rect x="880" y="370" width="160" height="44" rx="8" fill="#ffffff" fill-opacity="0.07"/>
-  <text x="960" y="397" font-family="Arial, sans-serif" font-size="20" text-anchor="middle" fill="#ff6b6b">♥ ♥ ♥ Lives</text>
+  <!-- Main title -->
+  <text x="600" y="220" font-family="Arial, Helvetica, sans-serif" font-size="96" font-weight="bold" text-anchor="middle" fill="#4ade80" letter-spacing="-1">Catch the Coin</text>
 
-  <!-- URL badge -->
-  <rect x="430" y="565" width="340" height="40" rx="20" fill="#4ade80" fill-opacity="0.15"/>
-  <text x="600" y="590" font-family="Arial, sans-serif" font-size="18" text-anchor="middle" fill="#4ade80">xxx-g.netlify.app</text>
+  <!-- Subtitle -->
+  <text x="600" y="280" font-family="Arial, Helvetica, sans-serif" font-size="30" text-anchor="middle" fill="#ffffff" opacity="0.65">Free browser arcade game — instant play, no download</text>
+
+  <!-- Feature pills -->
+  <rect x="258" y="316" width="148" height="38" rx="19" fill="#4ade80" fill-opacity="0.15" stroke="#4ade80" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="332" y="340" font-family="Arial" font-size="17" text-anchor="middle" fill="#4ade80">⏱ 60 Seconds</text>
+
+  <rect x="426" y="316" width="130" height="38" rx="19" fill="#88d0ff" fill-opacity="0.12" stroke="#88d0ff" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="491" y="340" font-family="Arial" font-size="17" text-anchor="middle" fill="#88d0ff">3 Stages</text>
+
+  <rect x="576" y="316" width="148" height="38" rx="19" fill="#ffd93d" fill-opacity="0.12" stroke="#ffd93d" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="650" y="340" font-family="Arial" font-size="17" text-anchor="middle" fill="#ffd93d">🏆 High Score</text>
+
+  <rect x="744" y="316" width="148" height="38" rx="19" fill="#ff6b6b" fill-opacity="0.12" stroke="#ff6b6b" stroke-opacity="0.3" stroke-width="1"/>
+  <text x="818" y="340" font-family="Arial" font-size="17" text-anchor="middle" fill="#ff6b6b">📱 Mobile Ready</text>
+
+  <!-- URL badge at bottom -->
+  <rect x="460" y="572" width="280" height="38" rx="19" fill="#4ade80" fill-opacity="0.12" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1.5"/>
+  <text x="600" y="596" font-family="Arial, Helvetica, sans-serif" font-size="17" text-anchor="middle" fill="#4ade80">🌐 xxx-g.netlify.app</text>
 </svg>

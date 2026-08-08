@@ -5,9 +5,31 @@
 [build.environment]
   NODE_VERSION = "22"
 
-# SPA fallback so client-side routes resolve from the root
+# SPA fallback — all routes resolve to index.html
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Security + performance headers on all responses
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Hashed JS/CSS assets — cache 1 year
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Manifest
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=86400"

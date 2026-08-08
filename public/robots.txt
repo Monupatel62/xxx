@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /dist/
 
 Sitemap: https://xxx-g.netlify.app/sitemap.xml
-

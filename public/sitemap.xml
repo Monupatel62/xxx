@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
   <url>
     <loc>https://xxx-g.netlify.app/</loc>
     <lastmod>2025-08-08</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://xxx-g.netlify.app/og-image.svg</image:loc>
+      <image:title>Catch the Coin — Free Online Arcade Game</image:title>
+      <image:caption>Move a basket to catch falling gold coins and beat your high score. Free browser arcade game, no download required.</image:caption>
+    </image:image>
   </url>
 </urlset>

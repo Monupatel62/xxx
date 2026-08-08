@@ -91,8 +91,10 @@ export class Input {
 
   private onMouseMove = (event: MouseEvent): void => {
     const rect = this.target.getBoundingClientRect();
-    this.mouseX = event.clientX - rect.left;
-    this.mouseY = event.clientY - rect.top;
+    const scaleX = (this.target as HTMLCanvasElement).width / rect.width;
+    const scaleY = (this.target as HTMLCanvasElement).height / rect.height;
+    this.mouseX = (event.clientX - rect.left) * scaleX;
+    this.mouseY = (event.clientY - rect.top) * scaleY;
   };
 
   private onMouseDown = (event: MouseEvent): void => {
@@ -116,8 +118,10 @@ export class Input {
     const touch = event.touches[0];
     if (touch) {
       const rect = this.target.getBoundingClientRect();
-      this.touchX = touch.clientX - rect.left;
-      this.touchY = touch.clientY - rect.top;
+      const scaleX = (this.target as HTMLCanvasElement).width / rect.width;
+      const scaleY = (this.target as HTMLCanvasElement).height / rect.height;
+      this.touchX = (touch.clientX - rect.left) * scaleX;
+      this.touchY = (touch.clientY - rect.top) * scaleY;
     }
   };
 
@@ -126,18 +130,17 @@ export class Input {
     const touch = event.touches[0];
     if (touch) {
       const rect = this.target.getBoundingClientRect();
-      this.touchX = touch.clientX - rect.left;
-      this.touchY = touch.clientY - rect.top;
+      const scaleX = (this.target as HTMLCanvasElement).width / rect.width;
+      const scaleY = (this.target as HTMLCanvasElement).height / rect.height;
+      this.touchX = (touch.clientX - rect.left) * scaleX;
+      this.touchY = (touch.clientY - rect.top) * scaleY;
     }
   };
 
   private onTouchEnd = (event: TouchEvent): void => {
     event.preventDefault();
-    const touch = event.changedTouches[0];
-    if (touch) {
-      const rect = this.target.getBoundingClientRect();
-      this.touchX = touch.clientX - rect.left;
-      this.touchY = touch.clientY - rect.top;
-    }
+    // Reset touch position so the player doesn't keep drifting after finger lifts.
+    this.touchX = 0;
+    this.touchY = 0;
   };
 }

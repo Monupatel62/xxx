@@ -78,6 +78,12 @@ export class ParticleEmitter {
       const b = parseInt(hex.slice(4, 6), 16);
       return `rgba(${r}, ${g}, ${b}, ${alpha.toFixed(2)})`;
     }
+    // Handle rgb(...) or named colors by rendering at full color — alpha via globalAlpha.
+    // For rgba(...) strings, replace the alpha component directly.
+    const rgbaMatch = particle.color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+    if (rgbaMatch) {
+      return `rgba(${rgbaMatch[1]}, ${rgbaMatch[2]}, ${rgbaMatch[3]}, ${alpha.toFixed(2)})`;
+    }
     return particle.color;
   }
 }

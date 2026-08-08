@@ -1,4 +1,5 @@
 import { Rect } from "../math/Rect";
+import { MathUtils } from "../math/MathUtils";
 
 export interface Circle {
   x: number;
@@ -19,8 +20,8 @@ export class CollisionManager {
   }
 
   public static circleRect(circle: Circle, rect: Rect): boolean {
-    const closestX = MathUtilsClamp(circle.x, rect.left, rect.right);
-    const closestY = MathUtilsClamp(circle.y, rect.top, rect.bottom);
+    const closestX = MathUtils.clamp(circle.x, rect.left, rect.right);
+    const closestY = MathUtils.clamp(circle.y, rect.top, rect.bottom);
     const dx = circle.x - closestX;
     const dy = circle.y - closestY;
     return dx * dx + dy * dy <= circle.radius * circle.radius;
@@ -29,8 +30,4 @@ export class CollisionManager {
   public static pointInRect(px: number, py: number, rect: Rect): boolean {
     return rect.containsPoint(px, py);
   }
-}
-
-function MathUtilsClamp(value: number, min: number, max: number): number {
-  return Math.max(min, Math.min(max, value));
 }

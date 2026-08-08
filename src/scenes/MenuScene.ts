@@ -6,8 +6,16 @@ import { GAME_WIDTH, GAME_HEIGHT } from "../config/GameConfig";
 
 export class MenuScene extends Scene {
   public update(_deltaTime: number, input: Input): void {
+    // Keyboard: Enter to start.
     if (input.isKeyPressed(KEY_ENTER)) {
       this.switchTo("play");
+      return;
+    }
+
+    // Mouse / touch: click or tap anywhere to start.
+    if (input.isMousePressed()) {
+      this.switchTo("play");
+      return;
     }
   }
 
@@ -22,7 +30,7 @@ export class MenuScene extends Scene {
       font: "20px Arial",
       align: "center",
     });
-    renderer.fillText("Press ENTER to start", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 40, {
+    renderer.fillText("Press ENTER or tap to start", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 40, {
       color: "#ffd93d",
       font: "24px Arial",
       align: "center",
@@ -30,6 +38,11 @@ export class MenuScene extends Scene {
     renderer.fillText("Use ← → arrow keys to move", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 80, {
       color: "#88d0ff",
       font: "18px Arial",
+      align: "center",
+    });
+    renderer.fillText("ESC / P = Pause  |  M = Mute", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 115, {
+      color: "#666666",
+      font: "14px Arial",
       align: "center",
     });
   }

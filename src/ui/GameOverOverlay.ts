@@ -4,24 +4,31 @@ import { GAME_WIDTH, GAME_HEIGHT } from "../config/GameConfig";
 
 export interface GameOverOverlayState {
   result: GameResult | null;
+  cause: "time" | "lives";
 }
 
 export class GameOverOverlay {
   public render(renderer: Renderer, state: GameOverOverlayState): void {
     const result = state.result;
+    const heading = state.cause === "lives" ? "OUT OF LIVES!" : "TIME'S UP!";
 
-    renderer.fillText("TIME'S UP!", GAME_WIDTH / 2, GAME_HEIGHT / 2 - 120, {
+    renderer.fillText(heading, GAME_WIDTH / 2, GAME_HEIGHT / 2 - 120, {
       color: "#ff6b6b",
       font: "48px Arial",
       align: "center",
     });
 
     if (!result) {
-      renderer.fillText("Press ENTER to play again", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 30, {
-        color: "#ffd93d",
-        font: "24px Arial",
-        align: "center",
-      });
+      renderer.fillText(
+        "Press ENTER or click to play again",
+        GAME_WIDTH / 2,
+        GAME_HEIGHT / 2 + 30,
+        {
+          color: "#ffd93d",
+          font: "24px Arial",
+          align: "center",
+        },
+      );
       return;
     }
 
@@ -64,7 +71,7 @@ export class GameOverOverlay {
       });
     }
 
-    renderer.fillText("Press ENTER to play again", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 120, {
+    renderer.fillText("Press ENTER or click to play again", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 120, {
       color: "#ffd93d",
       font: "24px Arial",
       align: "center",

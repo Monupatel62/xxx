@@ -1,7 +1,5 @@
 export const KEY_LEFT = "arrowleft";
 export const KEY_RIGHT = "arrowright";
-export const KEY_UP = "arrowup";
-export const KEY_DOWN = "arrowdown";
 export const KEY_SPACE = " ";
 export const KEY_ENTER = "enter";
 export const KEY_DEBUG = "f3";

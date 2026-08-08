@@ -24,6 +24,8 @@ export class SpawnManager {
     for (const coin of this.coins) {
       coin.destroy();
     }
+    // Clear the array so stale coin objects don't accumulate across sessions.
+    this.coins.length = 0;
     this.spawnTimer = 0;
   }
 

@@ -9,16 +9,19 @@
 ## What Was Completed
 
 ### 1. Project Created
+
 - Scaffolded a **Vite + vanilla TypeScript** project named `xxx-game` at `d:/x/xxx-game`.
 - Node.js `v22.12.0` and npm `10.9.0` verified before setup.
 
 ### 2. Development Tools Installed
+
 - **ESLint** — code linting
 - **Prettier** — code formatting
 - **@typescript-eslint/parser** & **@typescript-eslint/eslint-plugin** — TypeScript linting
 - **eslint-config-prettier** & **eslint-plugin-prettier** — Prettier & ESLint integration
 
 ### 3. Folder Structure Created
+
 ```
 xxx-game/
 ├── public/
@@ -44,22 +47,24 @@ xxx-game/
 ```
 
 ### 4. Default Files Cleaned
+
 - Removed Vite template boilerplate (`counter.ts`, `typescript.svg`, `style.css`).
 - Kept only `main.ts` as the entry point.
 
 ### 5. Source Files Created
 
-| File | Purpose |
-| ---- | ------- |
-| `src/engine/Game.ts` | Game class — canvas setup, 60 FPS game loop, update/render pipeline |
+| File                     | Purpose                                                              |
+| ------------------------ | -------------------------------------------------------------------- |
+| `src/engine/Game.ts`     | Game class — canvas setup, 60 FPS game loop, update/render pipeline  |
 | `src/entities/Player.ts` | Player entity — position, dimensions, speed, `update()` and `draw()` |
-| `src/entities/Coin.ts` | Coin entity — position, radius, speed, `update()` and `draw()` |
-| `src/ui/HUD.ts` | Heads-up display — renders score and lives |
-| `src/utils/Constants.ts` | Central game constants |
-| `src/styles/main.css` | Dark theme, centered canvas layout |
-| `src/main.ts` | Entry point — imports CSS, creates canvas, boots the game |
+| `src/entities/Coin.ts`   | Coin entity — position, radius, speed, `update()` and `draw()`       |
+| `src/ui/HUD.ts`          | Heads-up display — renders score and lives                           |
+| `src/utils/Constants.ts` | Central game constants                                               |
+| `src/styles/main.css`    | Dark theme, centered canvas layout                                   |
+| `src/main.ts`            | Entry point — imports CSS, creates canvas, boots the game            |
 
 ### 6. Constants Defined
+
 ```ts
 export const GAME_WIDTH = 800;
 export const GAME_HEIGHT = 600;
@@ -70,12 +75,14 @@ export const MAX_LIVES = 3;
 ```
 
 ### 7. CSS Styled
+
 - Global reset (`margin`, `padding`, `box-sizing`).
 - Dark background (`#111`), hidden overflow.
 - `#app` flex-centered container filling the viewport.
 - Styled game canvas with background and subtle shadow.
 
 ### 8. index.html Replaced
+
 - Clean HTML with `#app` container.
 - Loads `/src/main.ts` as a module.
 - Responsive viewport meta tag.
@@ -84,12 +91,12 @@ export const MAX_LIVES = 3;
 
 ## Verification Results
 
-| Check | Command | Result |
-| ----- | ------- | ------ |
-| TypeScript | `tsc --noEmit` | ✅ Passed (0 errors) |
-| Lint | `eslint .` | ✅ Passed (0 errors) |
-| Build | `vite build` | ✅ Passed (built in ~343ms) |
-| Dev server | `vite dev` | ✅ Serves at `http://localhost:5173/` |
+| Check      | Command        | Result                                |
+| ---------- | -------------- | ------------------------------------- |
+| TypeScript | `tsc --noEmit` | ✅ Passed (0 errors)                  |
+| Lint       | `eslint .`     | ✅ Passed (0 errors)                  |
+| Build      | `vite build`   | ✅ Passed (built in ~343ms)           |
+| Dev server | `vite dev`     | ✅ Serves at `http://localhost:5173/` |
 
 ---
 
@@ -101,6 +108,7 @@ npm run dev
 ```
 
 Then open **http://localhost:5173** — you'll see:
+
 - A game canvas (800×600)
 - A green player block near the bottom
 - HUD showing **Score: 0** and **Lives: 3**

@@ -24,6 +24,13 @@ import {
   COIN_SCORE_VALUE,
 } from "../config/GameConfig";
 
+export type GameOverCause = "time" | "lives";
+
+export interface GameOverPayload {
+  result: ReturnType<ScoreManager["finishGame"]>;
+  cause: GameOverCause;
+}
+
 export class PlayScene extends Scene {
   private readonly player: Player;
   private readonly hud: HUD;
@@ -38,6 +45,8 @@ export class PlayScene extends Scene {
   private lives: number = MAX_LIVES;
   private timeLeft: number = GAME_DURATION;
   private elapsed: number = 0;
+  // Guard against double game-over in the same frame (lives + time both reach 0).
+  private gameOverFired: boolean = false;
 
   constructor(eventBus: EventBus, soundManager: SoundManager) {
     super();
@@ -69,6 +78,7 @@ export class PlayScene extends Scene {
     this.lives = MAX_LIVES;
     this.timeLeft = GAME_DURATION;
     this.elapsed = 0;
+    this.gameOverFired = false;
     this.soundManager.startMusic();
   }
 
@@ -105,7 +115,8 @@ export class PlayScene extends Scene {
       this.player.stop();
     }
 
-    // Touch control foundation: move basket toward the touch X.
+    // Touch control: move basket toward the touch X position.
+    // touchX is 0 when no finger is on the screen (reset on touchend).
     if (input.getTouchX() > 0) {
       this.player.moveToward(input.getTouchX());
     }
@@ -129,7 +140,8 @@ export class PlayScene extends Scene {
       this.particles.lifeLost(this.player.rect.centerX, this.player.rect.top);
       if (this.lives <= 0) {
         this.lives = 0;
-        this.handleGameOver();
+        this.handleGameOver("lives");
+        return;
       }
     }
 
@@ -139,10 +151,13 @@ export class PlayScene extends Scene {
     this.timeLeft = Math.max(0, GAME_DURATION - Math.floor(this.elapsed));
 
     if (this.timeLeft <= 0) {
-      this.handleGameOver();
+      this.handleGameOver("time");
+      return;
     }
+  }
 
-    this.hud.update({
+  public render(renderer: Renderer): void {
+    this.hud.render(renderer, {
       score: this.scoreManager.getScore(),
       highScore: this.scoreManager.getHighScore(),
       lives: this.lives,
@@ -150,10 +165,6 @@ export class PlayScene extends Scene {
       difficultyStage: this.difficulty.getStageName(),
       muted: this.soundManager.isMuted(),
     });
-  }
-
-  public render(renderer: Renderer): void {
-    this.hud.render(renderer);
     this.spawnManager.render(renderer);
     this.particles.render(renderer);
     this.player.render(renderer);
@@ -176,11 +187,17 @@ export class PlayScene extends Scene {
     }
   }
 
-  private handleGameOver(): void {
+  private handleGameOver(cause: GameOverCause): void {
+    // Guard: only fire once per play session even if called from multiple paths.
+    if (this.gameOverFired) {
+      return;
+    }
+    this.gameOverFired = true;
+
     const result = this.scoreManager.finishGame(this.elapsed);
     this.soundManager.play("gameOver");
     this.particles.gameOver(this.player.rect.centerX, this.player.rect.centerY);
-    this.eventBus.emit(EVT_GAME_OVER, result);
+    this.eventBus.emit(EVT_GAME_OVER, { result, cause } satisfies GameOverPayload);
     this.switchTo("gameover");
   }
 }

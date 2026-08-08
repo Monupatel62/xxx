@@ -7,7 +7,6 @@ export const PLAYER_WIDTH = 80;
 export const PLAYER_HEIGHT = 24;
 export const PLAYER_COLOR = "#4ade80";
 
-export const COIN_FALL_SPEED = 150;
 export const COIN_RADIUS = 14;
 export const COIN_COLOR = "#facc15";
 

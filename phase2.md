@@ -27,17 +27,17 @@ src/engine/
 
 ### Module Responsibilities
 
-| Module | Responsibility |
-| ------ | -------------- |
-| **Game** | Initialize game, start engine, switch scenes, debug overlay |
-| **GameLoop** | Fixed timestep, delta time, FPS calculation |
-| **Renderer** | Canvas rendering, clear screen, draw primitives |
-| **Input** | Keyboard, mouse, touch support |
-| **Time** | Delta time, elapsed time, FPS |
-| **Scene** | Menu, playing, pause, game over states |
-| **SceneManager** | Scene registration & switching |
-| **Camera** | Future scrolling support |
-| **AssetLoader** | Images, audio, fonts |
+| Module           | Responsibility                                              |
+| ---------------- | ----------------------------------------------------------- |
+| **Game**         | Initialize game, start engine, switch scenes, debug overlay |
+| **GameLoop**     | Fixed timestep, delta time, FPS calculation                 |
+| **Renderer**     | Canvas rendering, clear screen, draw primitives             |
+| **Input**        | Keyboard, mouse, touch support                              |
+| **Time**         | Delta time, elapsed time, FPS                               |
+| **Scene**        | Menu, playing, pause, game over states                      |
+| **SceneManager** | Scene registration & switching                              |
+| **Camera**       | Future scrolling support                                    |
+| **AssetLoader**  | Images, audio, fonts                                        |
 
 ### Architecture
 
@@ -78,6 +78,7 @@ Input.ts         ❌ No score management
 ### Demo Scene
 
 A `DemoScene` was added to prove the engine works end-to-end:
+
 - A green block moves with **arrow keys**
 - Live **mouse position** display
 - A gold coin indicator (top-right)
@@ -107,12 +108,12 @@ A `DemoScene` was added to prove the engine works end-to-end:
 
 ## Verification Results
 
-| Check | Command | Result |
-| ----- | ------- | ------ |
-| TypeScript | `tsc --noEmit` | ✅ Passed (0 errors) |
-| Lint | `eslint .` | ✅ Passed (0 errors) |
-| Build | `vite build` | ✅ Passed (13 modules, ~9.8 kB JS) |
-| Dev server | `vite dev` | ✅ Serves at `http://localhost:5173/` |
+| Check      | Command        | Result                                |
+| ---------- | -------------- | ------------------------------------- |
+| TypeScript | `tsc --noEmit` | ✅ Passed (0 errors)                  |
+| Lint       | `eslint .`     | ✅ Passed (0 errors)                  |
+| Build      | `vite build`   | ✅ Passed (13 modules, ~9.8 kB JS)    |
+| Dev server | `vite dev`     | ✅ Serves at `http://localhost:5173/` |
 
 ---
 
@@ -124,6 +125,7 @@ npm run dev
 ```
 
 Then open **http://localhost:5173**:
+
 - **Arrow keys** → move the green block
 - **F3** → toggle debug overlay (FPS, delta, elapsed)
 - **Mouse** → move the cursor to see live coordinates
@@ -133,6 +135,7 @@ Then open **http://localhost:5173**:
 ## ✅ Phase 2 Complete
 
 We now have a **reusable 2D game engine**. The engine is decoupled from any specific game, making it easy to build:
+
 - Catch the Coin
 - Snake
 - Breakout

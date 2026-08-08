@@ -28,7 +28,7 @@ export class PauseOverlay {
         align: "center",
       });
     } else {
-      renderer.fillText("M (mute): 🔊 ON", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 60, {
+      renderer.fillText("M (mute): 🔊 OFF", GAME_WIDTH / 2, GAME_HEIGHT / 2 + 60, {
         color: "#888888",
         font: "16px Arial",
         align: "center",

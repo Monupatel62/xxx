@@ -51,8 +51,8 @@ export class SoundManager {
         break;
       case "gameOver":
         this.tone(392, 0.25, "triangle", 0.3);
-        this.setTimeout(() => this.tone(330, 0.25, "triangle", 0.3), 250);
-        this.setTimeout(() => this.tone(262, 0.5, "triangle", 0.3), 500);
+        this.scheduleTimeout(() => this.tone(330, 0.25, "triangle", 0.3), 250);
+        this.scheduleTimeout(() => this.tone(262, 0.5, "triangle", 0.3), 500);
         break;
       case "uiClick":
         this.tone(600, 0.05, "square", 0.15);
@@ -125,7 +125,7 @@ export class SoundManager {
         this.musicGain,
       );
     }
-    this.musicTimer = this.setTimeout(() => this.scheduleNote(), 6 * 0.22 * 1000);
+    this.musicTimer = this.scheduleTimeout(() => this.scheduleNote(), 6 * 0.22 * 1000);
   }
 
   private tone(
@@ -155,7 +155,7 @@ export class SoundManager {
     osc.stop(t0 + duration + 0.02);
   }
 
-  private setTimeout(callback: () => void, delay: number): number {
+  private scheduleTimeout(callback: () => void, delay: number): number {
     return window.setTimeout(callback, delay);
   }
 }

@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1a1a2e" />
+    <title>About — Catch the Coin | Free Online Arcade Game</title>
+    <meta
+      name="description"
+      content="Learn about Catch the Coin — a free browser arcade game built with TypeScript and HTML5 Canvas. Catch falling gold coins, survive 3 difficulty stages, beat your high score."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://xxx-g.netlify.app/about.html" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #1a1a2e;
+        color: #e0e0e0;
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.7;
+      }
+      header {
+        background: #16213e;
+        border-bottom: 2px solid #f5c842;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      header a {
+        color: #f5c842;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+      header a:hover {
+        text-decoration: underline;
+      }
+      header span {
+        color: #aaa;
+        font-size: 0.9rem;
+      }
+      .container {
+        max-width: 800px;
+        margin: 48px auto;
+        padding: 0 24px 64px;
+      }
+      h1 {
+        font-size: 2rem;
+        color: #f5c842;
+        margin-bottom: 16px;
+      }
+      h2 {
+        font-size: 1.25rem;
+        color: #f5c842;
+        margin: 32px 0 12px;
+      }
+      p {
+        margin-bottom: 14px;
+        color: #ccc;
+      }
+      ul {
+        margin: 8px 0 16px 24px;
+        color: #ccc;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      a {
+        color: #f5c842;
+      }
+      a:hover {
+        color: #fff;
+      }
+      .play-btn {
+        display: inline-block;
+        margin: 24px 0;
+        padding: 14px 32px;
+        background: #f5c842;
+        color: #1a1a2e;
+        font-weight: bold;
+        font-size: 1.1rem;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background 0.2s;
+      }
+      .play-btn:hover {
+        background: #ffe066;
+        color: #1a1a2e;
+      }
+      .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px;
+        margin: 16px 0;
+      }
+      .tech-card {
+        background: #16213e;
+        border: 1px solid #333;
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+      }
+      .tech-card strong {
+        display: block;
+        color: #f5c842;
+        margin-bottom: 6px;
+      }
+      .tech-card span {
+        color: #aaa;
+        font-size: 0.85rem;
+      }
+      footer {
+        text-align: center;
+        padding: 24px;
+        color: #666;
+        font-size: 0.8rem;
+        border-top: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/">🪙 Catch the Coin</a>
+      <span>/ About</span>
+    </header>
+
+    <div class="container">
+      <h1>About Catch the Coin</h1>
+
+      <p>
+        <strong>Catch the Coin</strong> is a free, browser-based arcade game where you control a
+        basket and catch falling gold coins before they hit the ground. Race against a 60-second
+        timer, survive 3 escalating difficulty stages, and beat your personal high score — no
+        download, no login, no install required.
+      </p>
+
+      <a href="/" class="play-btn">▶ Play Now — It's Free</a>
+
+      <h2>How to Play</h2>
+      <ul>
+        <li>
+          <strong>Desktop:</strong> Use the ← → arrow keys (or A / D) to move the basket left and
+          right.
+        </li>
+        <li><strong>Mobile / Tablet:</strong> Tap the screen to move the basket toward that spot.</li>
+        <li>Catch a gold coin → earn 10 points.</li>
+        <li>Miss 3 coins → game over.</li>
+        <li>Survive all 3 difficulty stages within 60 seconds for the top score.</li>
+      </ul>
+
+      <h2>Game Controls</h2>
+      <ul>
+        <li><strong>← →</strong> or <strong>A / D</strong> — Move basket</li>
+        <li><strong>ESC</strong> or <strong>P</strong> — Pause / Resume</li>
+        <li><strong>M</strong> — Mute / Unmute sound</li>
+      </ul>
+
+      <h2>Game Features</h2>
+      <ul>
+        <li>60-second countdown timer — score as many coins as you can</li>
+        <li>3 difficulty stages — coins fall faster and spawn more frequently</li>
+        <li>High score saved locally — your best score persists between sessions</li>
+        <li>Particle effects on coin catch and miss</li>
+        <li>Synthesized Web Audio API sound effects and background music</li>
+        <li>Pause anytime and resume where you left off</li>
+        <li>Works on Chrome, Firefox, Safari, Edge, and any modern browser</li>
+        <li>Touch-friendly for mobile and tablet play</li>
+        <li>Completely free — no ads interrupting gameplay, no account needed</li>
+      </ul>
+
+      <h2>About the Developer</h2>
+      <p>
+        Catch the Coin was designed and built by
+        <a href="https://github.com/Monupatel62" target="_blank" rel="noopener noreferrer"
+          >Monupatel62</a
+        >
+        as an open-source web game project. The game is built entirely from scratch using vanilla
+        TypeScript and the HTML5 Canvas API — no game engine, no framework, just pure code.
+      </p>
+      <p>
+        The project started as a learning exercise to explore game architecture, real-time rendering,
+        collision detection, and audio programming in the browser. It has grown into a polished,
+        fully featured arcade game.
+      </p>
+
+      <h2>Technology Stack</h2>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <strong>TypeScript</strong>
+          <span>Typed, scalable game logic</span>
+        </div>
+        <div class="tech-card">
+          <strong>HTML5 Canvas</strong>
+          <span>60 FPS rendering engine</span>
+        </div>
+        <div class="tech-card">
+          <strong>Web Audio API</strong>
+          <span>Synthesized sound effects</span>
+        </div>
+        <div class="tech-card">
+          <strong>Vite</strong>
+          <span>Build tooling &amp; dev server</span>
+        </div>
+        <div class="tech-card">
+          <strong>Netlify</strong>
+          <span>Hosting &amp; deployment</span>
+        </div>
+        <div class="tech-card">
+          <strong>localStorage</strong>
+          <span>Client-side high score</span>
+        </div>
+      </div>
+
+      <h2>Source Code</h2>
+      <p>
+        The source code is available on GitHub. Contributions, bug reports, and suggestions are
+        welcome:
+        <a href="https://github.com/Monupatel62" target="_blank" rel="noopener noreferrer"
+          >github.com/Monupatel62</a
+        >
+      </p>
+
+      <h2>Advertising</h2>
+      <p>
+        This site is supported by Google AdSense advertising. Ads help keep the game free. We only
+        display non-intrusive ads that do not interfere with gameplay. For more information on how
+        advertising data is used, see our
+        <a href="/privacy.html">Privacy Policy</a>.
+      </p>
+    </div>
+
+    <footer>
+      <p>
+        &copy; 2025 Catch the Coin &nbsp;|&nbsp;
+        <a href="/">Play Game</a> &nbsp;|&nbsp;
+        <a href="/about.html">About</a> &nbsp;|&nbsp;
+        <a href="/privacy.html">Privacy Policy</a> &nbsp;|&nbsp;
+        <a href="/terms.html">Terms of Use</a>
+      </p>
+    </footer>
+  </body>
+</html>

@@ -1,5 +1,11 @@
 export const KEY_LEFT = "arrowleft";
 export const KEY_RIGHT = "arrowright";
+export const KEY_UP = "arrowup";
+export const KEY_DOWN = "arrowdown";
+export const KEY_W = "w";
+export const KEY_A = "a";
+export const KEY_S = "s";
+export const KEY_D = "d";
 export const KEY_SPACE = " ";
 export const KEY_ENTER = "enter";
 export const KEY_DEBUG = "f3";

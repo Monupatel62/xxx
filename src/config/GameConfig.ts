@@ -2,10 +2,14 @@ export const GAME_WIDTH = 800;
 export const GAME_HEIGHT = 600;
 export const FIXED_DELTA_TIME = 1 / 60;
 
-export const PLAYER_SPEED = 280;
-export const PLAYER_WIDTH = 80;
-export const PLAYER_HEIGHT = 24;
+export const PLAYER_SPEED = 420;
+export const PLAYER_WIDTH = 88;
+export const PLAYER_HEIGHT = 36;
 export const PLAYER_COLOR = "#4ade80";
+
+/** Vertical movement bounds — basket stays in lower 40% of screen */
+export const PLAYER_MIN_Y_RATIO = 0.55;   // 55% from top = upper limit
+export const PLAYER_MAX_Y_OFFSET = 52;    // pixels from bottom = lower limit
 
 export const COIN_RADIUS = 14;
 export const COIN_COLOR = "#facc15";

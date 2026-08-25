@@ -1,26 +1,53 @@
+# ── Default: all pages ────────────────────────────────────────────────────────
 /*
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: public, max-age=3600, must-revalidate
 
+# ── Main game page ─────────────────────────────────────────────────────────────
+# Short cache so players always get the latest game version
+/
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/index.html
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# ── Hashed JS/CSS assets (Vite adds content hash to filenames) ─────────────────
+# Immutable = browser never re-requests unless filename changes
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+# ── Static pages ───────────────────────────────────────────────────────────────
+/about.html
+  Cache-Control: public, max-age=86400
+
+/privacy.html
+  Cache-Control: public, max-age=86400
+
+/terms.html
+  Cache-Control: public, max-age=86400
+
+# ── Images & icons ─────────────────────────────────────────────────────────────
 /favicon.svg
   Cache-Control: public, max-age=604800
 
 /og-image.svg
   Cache-Control: public, max-age=604800
 
+# ── PWA / manifest ─────────────────────────────────────────────────────────────
 /manifest.webmanifest
   Cache-Control: public, max-age=86400
   Content-Type: application/manifest+json
 
+# ── SEO files ──────────────────────────────────────────────────────────────────
 /sitemap.xml
   Cache-Control: public, max-age=86400
 
 /robots.txt
+  Cache-Control: public, max-age=86400
+
+/ads.txt
   Cache-Control: public, max-age=86400

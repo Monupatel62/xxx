@@ -17,7 +17,7 @@ import { StageAnnouncement } from "../effects/StageAnnouncement";
 import { HUD } from "../ui/HUD";
 import { PauseOverlay } from "../ui/PauseOverlay";
 import { MobileControls } from "../ui/MobileControls";
-import { KEY_LEFT, KEY_RIGHT, KEY_PAUSE, KEY_PAUSE_ALT, KEY_MUTE } from "../config/InputConfig";
+import { KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, KEY_W, KEY_A, KEY_S, KEY_D, KEY_PAUSE, KEY_PAUSE_ALT, KEY_MUTE } from "../config/InputConfig";
 import { DEBUG_ENABLED, DEBUG_INFO_COLOR, DEBUG_FONT } from "../config/DebugConfig";
 import {
   GAME_WIDTH,
@@ -136,17 +136,21 @@ export class PlayScene extends Scene {
       return;
     }
 
-    // Keyboard OR mobile left/right buttons
-    const goLeft = input.isKeyDown(KEY_LEFT) || this.mobileControls.isLeftPressed();
-    const goRight = input.isKeyDown(KEY_RIGHT) || this.mobileControls.isRightPressed();
+    // ── Horizontal movement ───────────────────────────────────
+    const goLeft  = input.isKeyDown(KEY_LEFT)  || input.isKeyDown(KEY_A) || this.mobileControls.isLeftPressed();
+    const goRight = input.isKeyDown(KEY_RIGHT) || input.isKeyDown(KEY_D) || this.mobileControls.isRightPressed();
 
-    if (goLeft) {
-      this.player.moveLeft();
-    } else if (goRight) {
-      this.player.moveRight();
-    } else {
-      this.player.stop();
-    }
+    if (goLeft)       this.player.moveLeft();
+    else if (goRight) this.player.moveRight();
+    else              this.player.stopX();
+
+    // ── Vertical movement ─────────────────────────────────────
+    const goUp   = input.isKeyDown(KEY_UP)   || input.isKeyDown(KEY_W) || this.mobileControls.isUpPressed();
+    const goDown = input.isKeyDown(KEY_DOWN) || input.isKeyDown(KEY_S) || this.mobileControls.isDownPressed();
+
+    if (goUp)       this.player.moveUp();
+    else if (goDown) this.player.moveDown();
+    else             this.player.stopY();
 
     // Touch drag (only if NOT on a d-pad button)
     if (input.isTouchActive() && !this.mobileControls.isTouchOnButton(input.getTouchX(), input.getTouchY())) {
@@ -172,6 +176,7 @@ export class PlayScene extends Scene {
       const multiplier = this.combo.getMultiplier();
       const points = coin.getValue() * multiplier;
       this.scoreManager.add(points);
+      this.player.triggerCatchFlash();   // basket flashes on collect
 
       if (coin.coinType === "bonus") {
         this.soundManager.play("bonusCoin");

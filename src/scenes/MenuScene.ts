@@ -250,17 +250,19 @@ export class MenuScene extends Scene {
     const ctrlY = this.btnY + this.btnH + 38;
     this.drawKeyBadge(ctx, GAME_WIDTH / 2 - 140, ctrlY, "←");
     this.drawKeyBadge(ctx, GAME_WIDTH / 2 - 98, ctrlY, "→");
-    renderer.fillText("Move", GAME_WIDTH / 2 - 100, ctrlY + 30, { color: "#94a3b8", font: "12px Arial", align: "center" });
+    this.drawKeyBadge(ctx, GAME_WIDTH / 2 - 56, ctrlY, "↑");
+    this.drawKeyBadge(ctx, GAME_WIDTH / 2 - 14, ctrlY, "↓");
+    renderer.fillText("Move", GAME_WIDTH / 2 - 77, ctrlY + 30, { color: "#94a3b8", font: "12px Arial", align: "center" });
 
-    this.drawKeyBadge(ctx, GAME_WIDTH / 2 - 28, ctrlY, "ESC");
-    renderer.fillText("Pause", GAME_WIDTH / 2 - 28, ctrlY + 30, { color: "#94a3b8", font: "12px Arial", align: "center" });
+    this.drawKeyBadge(ctx, GAME_WIDTH / 2 + 36, ctrlY, "ESC");
+    renderer.fillText("Pause", GAME_WIDTH / 2 + 36, ctrlY + 30, { color: "#94a3b8", font: "12px Arial", align: "center" });
 
-    this.drawKeyBadge(ctx, GAME_WIDTH / 2 + 38, ctrlY, "M");
-    renderer.fillText("Mute", GAME_WIDTH / 2 + 38, ctrlY + 30, { color: "#94a3b8", font: "12px Arial", align: "center" });
+    this.drawKeyBadge(ctx, GAME_WIDTH / 2 + 92, ctrlY, "M");
+    renderer.fillText("Mute", GAME_WIDTH / 2 + 92, ctrlY + 30, { color: "#94a3b8", font: "12px Arial", align: "center" });
 
     // Mobile touch hint
     const touchY = ctrlY + 52;
-    renderer.fillText("📱  Mobile: tap screen or use on-screen buttons", GAME_WIDTH / 2, touchY, {
+    renderer.fillText("📱  Mobile: 4-direction D-pad (bottom-left) or drag on screen", GAME_WIDTH / 2, touchY, {
       color: "#64748b",
       font: "13px Arial",
       align: "center",

@@ -16,6 +16,7 @@ import { ScreenShake } from "../effects/ScreenShake";
 import { StageAnnouncement } from "../effects/StageAnnouncement";
 import { HUD } from "../ui/HUD";
 import { PauseOverlay } from "../ui/PauseOverlay";
+import { MobileControls } from "../ui/MobileControls";
 import { KEY_LEFT, KEY_RIGHT, KEY_PAUSE, KEY_PAUSE_ALT, KEY_MUTE } from "../config/InputConfig";
 import { DEBUG_ENABLED, DEBUG_INFO_COLOR, DEBUG_FONT } from "../config/DebugConfig";
 import {
@@ -50,6 +51,7 @@ export class PlayScene extends Scene {
   private readonly floatingText: FloatingTextManager;
   private readonly screenShake: ScreenShake;
   private readonly stageAnnouncement: StageAnnouncement;
+  private readonly mobileControls: MobileControls;
   private readonly eventBus: EventBus;
   private lives: number = MAX_LIVES;
   private timeLeft: number = GAME_DURATION;
@@ -79,6 +81,7 @@ export class PlayScene extends Scene {
     this.floatingText = new FloatingTextManager();
     this.screenShake = new ScreenShake();
     this.stageAnnouncement = new StageAnnouncement();
+    this.mobileControls = new MobileControls();
   }
 
   public enter(): void {
@@ -122,19 +125,31 @@ export class PlayScene extends Scene {
     this.stageAnnouncement.update(deltaTime);
     this.screenShake.update(deltaTime);
 
+    // Update mobile on-screen controls
+    this.mobileControls.update(
+      input.isTouchActive(),
+      input.getTouchX(),
+      input.getTouchY(),
+    );
+
     if (this.stateManager.isPaused()) {
       return;
     }
 
-    if (input.isKeyDown(KEY_LEFT)) {
+    // Keyboard OR mobile left/right buttons
+    const goLeft = input.isKeyDown(KEY_LEFT) || this.mobileControls.isLeftPressed();
+    const goRight = input.isKeyDown(KEY_RIGHT) || this.mobileControls.isRightPressed();
+
+    if (goLeft) {
       this.player.moveLeft();
-    } else if (input.isKeyDown(KEY_RIGHT)) {
+    } else if (goRight) {
       this.player.moveRight();
     } else {
       this.player.stop();
     }
 
-    if (input.isTouchActive()) {
+    // Touch drag (only if NOT on a d-pad button)
+    if (input.isTouchActive() && !this.mobileControls.isTouchOnButton(input.getTouchX(), input.getTouchY())) {
       this.player.moveToward(input.getTouchX());
     }
 
@@ -229,6 +244,9 @@ export class PlayScene extends Scene {
       comboMultiplier: this.combo.getMultiplier(),
       muted: this.soundManager.isMuted(),
     });
+
+    // Mobile on-screen d-pad buttons
+    this.mobileControls.render(renderer);
 
     if (this.stateManager.isPaused()) {
       this.pauseOverlay.render(renderer, { muted: this.soundManager.isMuted() });

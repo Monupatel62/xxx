@@ -14,76 +14,209 @@ export interface HUDState {
 }
 
 export class HUD {
+  // Cache ctx reference so helpers can use it
+  private ctx!: CanvasRenderingContext2D;
+
   public render(renderer: Renderer, state: HUDState): void {
-    const ctx = renderer.getContext();
+    this.ctx = renderer.getContext();
+    const ctx = this.ctx;
 
-    // Top bar background
-    ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
-    ctx.fillRect(0, 0, GAME_WIDTH, 70);
+    // ── Top bar backdrop ──────────────────────────────────────
+    const barGrad = ctx.createLinearGradient(0, 0, 0, 72);
+    barGrad.addColorStop(0, "rgba(5,5,20,0.88)");
+    barGrad.addColorStop(1, "rgba(5,5,20,0.0)");
+    ctx.fillStyle = barGrad;
+    ctx.fillRect(0, 0, GAME_WIDTH, 72);
 
-    renderer.fillText(`Score: ${state.score}`, 16, 32, {
-      color: "#ffffff",
-      font: "bold 20px Arial",
-    });
-    renderer.fillText(`Best: ${state.highScore}`, 16, 56, { color: "#ffd93d", font: "14px Arial" });
+    // Bottom separator line
+    ctx.strokeStyle = "rgba(255,255,255,0.06)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, 68);
+    ctx.lineTo(GAME_WIDTH, 68);
+    ctx.stroke();
 
-    // Timer with progress bar — shrinks as time runs out
-    const timerColor = state.timeLeft <= 10 ? "#ff6b6b" : "#ffd93d";
-    renderer.fillText(`⏱ ${state.timeLeft}s`, GAME_WIDTH / 2, 28, {
-      color: timerColor,
-      font: "bold 22px Arial",
-      align: "center",
-    });
+    // ── LEFT: Score panel ─────────────────────────────────────
+    this.drawPanel(ctx, 8, 6, 140, 58);
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "bold 11px Arial";
+    ctx.fillStyle = "rgba(255,255,255,0.45)";
+    ctx.fillText("SCORE", 78, 22);
+    ctx.font = "bold 24px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.shadowColor = "rgba(74,222,128,0.6)";
+    ctx.shadowBlur = 8;
+    ctx.fillText(String(state.score), 78, 50);
+    ctx.shadowBlur = 0;
+    ctx.restore();
 
-    const barWidth = 120;
-    const barX = GAME_WIDTH / 2 - barWidth / 2;
-    const timerProgress = Math.min(1, state.timeLeft / GAME_DURATION);
-    renderer.fillRect(barX, 38, barWidth, 6, "rgba(255,255,255,0.15)");
-    renderer.fillRect(barX, 38, barWidth * timerProgress, 6, timerColor);
+    // Best score below
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "11px Arial";
+    ctx.fillStyle = "#fbbf24";
+    ctx.fillText(`🏆 ${state.highScore}`, 78, 65);
+    ctx.restore();
 
-    // Lives
-    renderer.fillText(this.livesDisplay(state.lives), GAME_WIDTH - 16, 32, {
-      color: "#ff6b6b",
-      font: "bold 20px Arial",
-      align: "right",
-    });
+    // ── CENTER: Timer ─────────────────────────────────────────
+    const timerColor = state.timeLeft <= 10
+      ? (Math.floor(Date.now() / 350) % 2 === 0 ? "#ff6b6b" : "#ff9999")   // blink when low
+      : "#ffd93d";
 
-    // Stage + progress
-    renderer.fillText(state.difficultyStage, GAME_WIDTH - 16, 56, {
-      color: "#88d0ff",
-      font: "14px Arial",
-      align: "right",
-    });
+    this.drawPanel(ctx, GAME_WIDTH / 2 - 70, 6, 140, 58);
+
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "bold 11px Arial";
+    ctx.fillStyle = "rgba(255,255,255,0.45)";
+    ctx.fillText("TIME", GAME_WIDTH / 2, 22);
+    ctx.font = `bold 28px Arial`;
+    ctx.fillStyle = timerColor;
+    if (state.timeLeft <= 10) {
+      ctx.shadowColor = "#ff6b6b";
+      ctx.shadowBlur = 12;
+    }
+    ctx.fillText(`${state.timeLeft}s`, GAME_WIDTH / 2, 52);
+    ctx.shadowBlur = 0;
+    ctx.restore();
+
+    // Timer progress bar underneath center panel
+    const barW = 120;
+    const barX = GAME_WIDTH / 2 - barW / 2;
+    const barY = 63;
+    const progress = Math.min(1, state.timeLeft / GAME_DURATION);
+    ctx.fillStyle = "rgba(255,255,255,0.1)";
+    this.roundRectFill(ctx, barX, barY, barW, 4, 2);
+    const barColor = state.timeLeft <= 10 ? "#ff6b6b" : "#ffd93d";
+    ctx.fillStyle = barColor;
+    this.roundRectFill(ctx, barX, barY, barW * progress, 4, 2);
+
+    // ── RIGHT: Lives + Stage ──────────────────────────────────
+    this.drawPanel(ctx, GAME_WIDTH - 148, 6, 140, 58);
+
+    // Hearts
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "bold 11px Arial";
+    ctx.fillStyle = "rgba(255,255,255,0.45)";
+    ctx.fillText("LIVES", GAME_WIDTH - 78, 22);
+    ctx.restore();
+
+    const heartStr = this.buildHearts(state.lives);
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = state.lives <= 1 ? "bold 22px Arial" : "bold 20px Arial";
+    ctx.fillStyle = state.lives <= 1 ? "#ff6b6b" : "#fc8888";
+    if (state.lives <= 1) {
+      ctx.shadowColor = "#ff6b6b";
+      ctx.shadowBlur = 10;
+    }
+    ctx.fillText(heartStr, GAME_WIDTH - 78, 50);
+    ctx.shadowBlur = 0;
+    ctx.restore();
+
+    // Stage badge bottom-right
     const stageBarW = 80;
-    renderer.fillRect(GAME_WIDTH - 16 - stageBarW, 62, stageBarW, 4, "rgba(136,208,255,0.2)");
-    renderer.fillRect(
-      GAME_WIDTH - 16 - stageBarW,
-      62,
-      stageBarW * state.stageProgress,
-      4,
-      "#88d0ff",
-    );
+    const stageX = GAME_WIDTH - 148 + 30;
+    ctx.save();
+    ctx.textAlign = "left";
+    ctx.textBaseline = "alphabetic";
+    ctx.font = "bold 11px Arial";
+    ctx.fillStyle = "#7dd3fc";
+    ctx.fillText(state.difficultyStage, stageX, 65);
+    ctx.restore();
+    ctx.fillStyle = "rgba(125,211,252,0.15)";
+    this.roundRectFill(ctx, stageX, 66, stageBarW, 3, 2);
+    ctx.fillStyle = "#7dd3fc";
+    this.roundRectFill(ctx, stageX, 66, stageBarW * state.stageProgress, 3, 2);
 
-    // Combo display
+    // ── COMBO BANNER ──────────────────────────────────────────
     if (state.combo >= 2) {
-      const comboColor = state.comboMultiplier >= 3 ? "#f97316" : "#ffd93d";
-      renderer.fillText(`COMBO x${state.combo} (${state.comboMultiplier}x)`, GAME_WIDTH / 2, 58, {
-        color: comboColor,
-        font: "bold 16px Arial",
-        align: "center",
-      });
+      const comboY = 84;
+      const isHot = state.comboMultiplier >= 3;
+      const pulse = 0.85 + 0.15 * Math.sin(Date.now() / 140);
+      const comboText = `🔥 COMBO ×${state.combo}  (${state.comboMultiplier}x pts)`;
+
+      ctx.save();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "alphabetic";
+      ctx.font = `bold ${Math.round(15 * pulse)}px Arial`;
+      ctx.fillStyle = isHot ? "#f97316" : "#fbbf24";
+      ctx.shadowColor = isHot ? "#f97316" : "#fbbf24";
+      ctx.shadowBlur = isHot ? 14 : 8;
+      ctx.fillText(comboText, GAME_WIDTH / 2, comboY);
+      ctx.shadowBlur = 0;
+      ctx.restore();
     }
 
+    // ── MUTE ICON (top-right corner) ──────────────────────────
     if (state.muted) {
-      renderer.fillText("🔇", GAME_WIDTH / 2, 16, {
-        color: "#888888",
-        font: "14px Arial",
-        align: "center",
-      });
+      ctx.save();
+      ctx.textAlign = "right";
+      ctx.textBaseline = "alphabetic";
+      ctx.font = "14px Arial";
+      ctx.fillStyle = "#64748b";
+      ctx.fillText("🔇 muted", GAME_WIDTH - 8, 12);
+      ctx.restore();
     }
   }
 
-  private livesDisplay(lives: number): string {
-    return "♥".repeat(Math.max(0, Math.min(lives, MAX_LIVES)));
+  // ─── Helpers ──────────────────────────────────────────────────────────────
+
+  private drawPanel(
+    ctx: CanvasRenderingContext2D,
+    x: number, y: number, w: number, h: number,
+  ): void {
+    ctx.save();
+    ctx.beginPath();
+    this.roundRectPath(ctx, x, y, w, h, 8);
+    ctx.fillStyle = "rgba(255,255,255,0.05)";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  private buildHearts(lives: number): string {
+    const max = Math.min(MAX_LIVES, 5);
+    let s = "";
+    for (let i = 0; i < max; i++) {
+      s += i < lives ? "♥" : "♡";
+    }
+    return s;
+  }
+
+  private roundRectFill(
+    ctx: CanvasRenderingContext2D,
+    x: number, y: number, w: number, h: number, r: number,
+  ): void {
+    if (w <= 0) return;
+    ctx.beginPath();
+    this.roundRectPath(ctx, x, y, w, h, r);
+    ctx.fill();
+  }
+
+  private roundRectPath(
+    ctx: CanvasRenderingContext2D,
+    x: number, y: number, w: number, h: number, r: number,
+  ): void {
+    const cr = Math.min(r, w / 2, h / 2);
+    ctx.moveTo(x + cr, y);
+    ctx.lineTo(x + w - cr, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + cr);
+    ctx.lineTo(x + w, y + h - cr);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - cr, y + h);
+    ctx.lineTo(x + cr, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - cr);
+    ctx.lineTo(x, y + cr);
+    ctx.quadraticCurveTo(x, y, x + cr, y);
+    ctx.closePath();
   }
 }

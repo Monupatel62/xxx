@@ -1,7 +1,8 @@
 import { StorageManager } from "./StorageManager";
 import { DEFAULT_VOLUME, STORAGE_MUTED_KEY, STORAGE_VOLUME_KEY } from "../config/GameConfig";
 
-export type SoundEffect = "coin" | "lifeLost" | "gameOver" | "uiClick" | "pause";
+export type SoundEffect =
+  "coin" | "bonusCoin" | "lifeLost" | "gameOver" | "uiClick" | "pause" | "combo" | "stageUp";
 
 export class SoundManager {
   private ctx: AudioContext | null = null;
@@ -44,6 +45,20 @@ export class SoundManager {
       case "coin":
         this.tone(880, 0.08, "sine", 0.25);
         this.tone(1320, 0.1, "sine", 0.15, 0.06);
+        break;
+      case "bonusCoin":
+        this.tone(660, 0.1, "sine", 0.3);
+        this.tone(990, 0.12, "sine", 0.25, 0.08);
+        this.tone(1320, 0.15, "triangle", 0.2, 0.16);
+        break;
+      case "combo":
+        this.tone(1047, 0.06, "sine", 0.2);
+        this.tone(1319, 0.08, "sine", 0.15, 0.05);
+        break;
+      case "stageUp":
+        this.tone(523, 0.12, "triangle", 0.25);
+        this.tone(659, 0.12, "triangle", 0.25, 0.1);
+        this.tone(784, 0.2, "triangle", 0.3, 0.2);
         break;
       case "lifeLost":
         this.tone(220, 0.25, "sawtooth", 0.3);

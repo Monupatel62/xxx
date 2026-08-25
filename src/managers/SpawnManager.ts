@@ -3,7 +3,7 @@ import { Renderer } from "../engine/Renderer";
 import { CollisionManager } from "../engine/CollisionManager";
 import { Rect } from "../math/Rect";
 import { Random } from "../math/Random";
-import { GAME_WIDTH, GAME_HEIGHT, COIN_RADIUS } from "../config/GameConfig";
+import { GAME_WIDTH, GAME_HEIGHT, COIN_RADIUS, COIN_TYPES, CoinType } from "../config/GameConfig";
 import { DifficultyManager } from "./DifficultyManager";
 
 export interface CoinCollisionResult {
@@ -24,7 +24,6 @@ export class SpawnManager {
     for (const coin of this.coins) {
       coin.destroy();
     }
-    // Clear the array so stale coin objects don't accumulate across sessions.
     this.coins.length = 0;
     this.spawnTimer = 0;
   }
@@ -92,14 +91,27 @@ export class SpawnManager {
     const reused = this.coins.find((coin) => !coin.active);
     const x = Random.range(COIN_RADIUS, GAME_WIDTH - COIN_RADIUS);
     const speed = this.difficulty.getCoinSpeed();
+    const coinType = this.pickCoinType();
 
     if (reused) {
-      reused.reset(x, -COIN_RADIUS, speed);
+      reused.reset(x, -COIN_RADIUS, speed, coinType);
       return;
     }
 
     if (this.coins.length < this.poolSize) {
-      this.coins.push(new Coin(x, -COIN_RADIUS, COIN_RADIUS, speed));
+      this.coins.push(new Coin(x, -COIN_RADIUS, COIN_RADIUS, speed, coinType));
     }
+  }
+
+  private pickCoinType(): CoinType {
+    const totalWeight = COIN_TYPES.reduce((sum, c) => sum + c.spawnWeight, 0);
+    let roll = Random.range(0, totalWeight);
+    for (const config of COIN_TYPES) {
+      roll -= config.spawnWeight;
+      if (roll <= 0) {
+        return config.type;
+      }
+    }
+    return "normal";
   }
 }

@@ -3,22 +3,24 @@ import { Renderer } from "../engine/Renderer";
 import { Input } from "../engine/Input";
 import { EventBus } from "../engine/EventBus";
 import { SoundManager } from "../managers/SoundManager";
+import { BackgroundRenderer } from "../effects/BackgroundRenderer";
 import { EVT_GAME_OVER, GameResult } from "../managers/ScoreManager";
-import { KEY_ENTER } from "../config/InputConfig";
+import { KEY_ENTER, KEY_SPACE } from "../config/InputConfig";
 import { GameOverOverlay } from "../ui/GameOverOverlay";
 import { GameOverCause, GameOverPayload } from "./PlayScene";
 
 export class GameOverScene extends Scene {
   private readonly overlay: GameOverOverlay;
+  private readonly background: BackgroundRenderer;
   private readonly soundManager: SoundManager;
   private result: GameResult | null = null;
   private cause: GameOverCause = "time";
-  // Unsubscribe function returned by EventBus.on — stored so we never leak the listener.
   private readonly unsubscribeGameOver: () => void;
 
   constructor(eventBus: EventBus, soundManager: SoundManager) {
     super();
     this.overlay = new GameOverOverlay();
+    this.background = new BackgroundRenderer(30);
     this.soundManager = soundManager;
     this.unsubscribeGameOver = eventBus.on(EVT_GAME_OVER, (payload: GameOverPayload) => {
       this.result = payload.result;
@@ -35,27 +37,26 @@ export class GameOverScene extends Scene {
   }
 
   public destroy(): void {
-    // Call when the game is torn down to avoid EventBus leaks.
     this.unsubscribeGameOver();
   }
 
-  public update(_deltaTime: number, input: Input): void {
-    // Keyboard: Enter to play again.
-    if (input.isKeyPressed(KEY_ENTER)) {
+  public update(deltaTime: number, input: Input): void {
+    this.background.update(deltaTime);
+
+    if (input.isKeyPressed(KEY_ENTER) || input.isKeyPressed(KEY_SPACE)) {
       this.soundManager.play("uiClick");
       this.switchTo("play");
       return;
     }
 
-    // Mouse: click to play again.
     if (input.isMousePressed()) {
       this.soundManager.play("uiClick");
       this.switchTo("play");
-      return;
     }
   }
 
   public render(renderer: Renderer): void {
+    this.background.render(renderer);
     this.overlay.render(renderer, { result: this.result, cause: this.cause });
   }
 }

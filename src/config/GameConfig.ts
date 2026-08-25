@@ -10,9 +10,50 @@ export const PLAYER_COLOR = "#4ade80";
 export const COIN_RADIUS = 14;
 export const COIN_COLOR = "#facc15";
 
+export type CoinType = "normal" | "silver" | "bonus";
+
+export interface CoinTypeConfig {
+  type: CoinType;
+  value: number;
+  color: string;
+  strokeColor: string;
+  spawnWeight: number;
+  label: string;
+}
+
+export const COIN_TYPES: CoinTypeConfig[] = [
+  {
+    type: "normal",
+    value: 10,
+    color: "#facc15",
+    strokeColor: "#a16207",
+    spawnWeight: 70,
+    label: "",
+  },
+  {
+    type: "silver",
+    value: 5,
+    color: "#e2e8f0",
+    strokeColor: "#64748b",
+    spawnWeight: 20,
+    label: "",
+  },
+  {
+    type: "bonus",
+    value: 25,
+    color: "#f97316",
+    strokeColor: "#c2410c",
+    spawnWeight: 10,
+    label: "★",
+  },
+];
+
 export const MAX_LIVES = 3;
 export const GAME_DURATION = 60;
 export const COIN_SCORE_VALUE = 10;
+
+export const COMBO_TIER_SIZE = 3;
+export const COMBO_MAX_MULTIPLIER = 4;
 
 export interface DifficultyStage {
   name: string;

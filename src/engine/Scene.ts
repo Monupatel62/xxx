@@ -16,6 +16,11 @@ export abstract class Scene {
     // Optional lifecycle hook - override in subclasses.
   }
 
+  public destroy(): void {
+    // Optional cleanup hook — called when a scene is permanently removed.
+    // Override to unsubscribe events, cancel timers, etc.
+  }
+
   public bindSceneManager(manager: SceneManager): void {
     this.sceneManager = manager;
   }

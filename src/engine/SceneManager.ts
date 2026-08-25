@@ -12,6 +12,19 @@ export class SceneManager {
     this.scenes.set(name, scene);
   }
 
+  public remove(name: string): void {
+    const scene = this.scenes.get(name);
+    if (scene) {
+      if (scene === this.currentScene) {
+        scene.exit();
+        this.currentScene = null;
+        this.currentSceneName = null;
+      }
+      scene.destroy();
+      this.scenes.delete(name);
+    }
+  }
+
   public switchTo(name: string): void {
     const scene = this.scenes.get(name);
     if (!scene) {

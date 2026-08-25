@@ -10,14 +10,23 @@ export interface GameResult {
   score: number;
   highScore: number;
   isNewHighScore: boolean;
+  /** All-time best survival time (seconds). */
   bestTime: number;
   isNewBestTime: boolean;
+  /** Current session's survival time (seconds). */
+  timeSurvived: number;
+  coinsCaught: number;
+  coinsMissed: number;
+  maxCombo: number;
 }
 
 export class ScoreManager {
   private score: number = 0;
   private highScore: number;
   private bestTime: number;
+  private coinsCaught: number = 0;
+  private coinsMissed: number = 0;
+  private maxCombo: number = 0;
   private readonly eventBus: EventBus;
 
   constructor(eventBus: EventBus) {
@@ -28,12 +37,24 @@ export class ScoreManager {
 
   public add(points: number): void {
     this.score += points;
+    this.coinsCaught++;
     this.eventBus.emit(EVT_COIN_COLLECTED, { points });
     this.eventBus.emit(EVT_SCORE_CHANGED, { score: this.score });
   }
 
+  public recordMiss(): void {
+    this.coinsMissed++;
+  }
+
+  public setMaxCombo(combo: number): void {
+    this.maxCombo = Math.max(this.maxCombo, combo);
+  }
+
   public reset(): void {
     this.score = 0;
+    this.coinsCaught = 0;
+    this.coinsMissed = 0;
+    this.maxCombo = 0;
     this.eventBus.emit(EVT_SCORE_CHANGED, { score: this.score });
   }
 
@@ -68,6 +89,10 @@ export class ScoreManager {
       isNewHighScore,
       bestTime: this.bestTime,
       isNewBestTime,
+      timeSurvived,
+      coinsCaught: this.coinsCaught,
+      coinsMissed: this.coinsMissed,
+      maxCombo: this.maxCombo,
     };
   }
 }

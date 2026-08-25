@@ -7,6 +7,7 @@ export class Input {
   private mousePressed: boolean = false;
   private touchX: number = 0;
   private touchY: number = 0;
+  private touchActive: boolean = false;
   private readonly target: HTMLElement;
 
   constructor(target: HTMLElement) {
@@ -52,6 +53,10 @@ export class Input {
 
   public getTouchY(): number {
     return this.touchY;
+  }
+
+  public isTouchActive(): boolean {
+    return this.touchActive;
   }
 
   public endFrame(): void {
@@ -122,6 +127,7 @@ export class Input {
       const scaleY = (this.target as HTMLCanvasElement).height / rect.height;
       this.touchX = (touch.clientX - rect.left) * scaleX;
       this.touchY = (touch.clientY - rect.top) * scaleY;
+      this.touchActive = true;
     }
   };
 
@@ -134,12 +140,13 @@ export class Input {
       const scaleY = (this.target as HTMLCanvasElement).height / rect.height;
       this.touchX = (touch.clientX - rect.left) * scaleX;
       this.touchY = (touch.clientY - rect.top) * scaleY;
+      this.touchActive = true;
     }
   };
 
   private onTouchEnd = (event: TouchEvent): void => {
     event.preventDefault();
-    // Reset touch position so the player doesn't keep drifting after finger lifts.
+    this.touchActive = false;
     this.touchX = 0;
     this.touchY = 0;
   };

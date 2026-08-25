@@ -6,9 +6,11 @@ import {
 
 export class DifficultyManager {
   private elapsed: number = 0;
+  private _prevStageIndex: number = 0;
 
   public reset(): void {
     this.elapsed = 0;
+    this._prevStageIndex = 0;
   }
 
   public update(deltaTime: number): void {
@@ -34,5 +36,28 @@ export class DifficultyManager {
 
   public getStageName(): string {
     return this.getStage().name;
+  }
+
+  /**
+   * Returns true once when the stage has advanced.
+   * Internally tracks the previous stage — no external index needed.
+   */
+  public checkAndAcknowledgeStageChange(): boolean {
+    const current = this.getStageIndex();
+    if (current !== this._prevStageIndex) {
+      this._prevStageIndex = current;
+      return true;
+    }
+    return false;
+  }
+
+  /** @deprecated Use checkAndAcknowledgeStageChange() instead. */
+  public hasStageChanged(prevIndex: number): boolean {
+    return this.getStageIndex() !== prevIndex;
+  }
+
+  public getStageProgress(): number {
+    const stageElapsed = this.elapsed % DIFFICULTY_STAGE_DURATION;
+    return stageElapsed / DIFFICULTY_STAGE_DURATION;
   }
 }

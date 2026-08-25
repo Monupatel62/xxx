@@ -27,7 +27,7 @@ window.addEventListener("pointerdown", unlockAudio);
 window.addEventListener("keydown", unlockAudio);
 
 const eventBus = game.getEventBus();
-game.registerScene("menu", new MenuScene());
+game.registerScene("menu", new MenuScene(soundManager));
 game.registerScene("play", new PlayScene(eventBus, soundManager));
 game.registerScene("gameover", new GameOverScene(eventBus, soundManager));
 game.startScene("menu");

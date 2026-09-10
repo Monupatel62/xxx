@@ -7,7 +7,6 @@ import { BackgroundRenderer } from "../effects/BackgroundRenderer";
 import { KEY_ENTER, KEY_SPACE } from "../config/InputConfig";
 import { GAME_WIDTH, GAME_HEIGHT, STORAGE_HIGH_SCORE_KEY } from "../config/GameConfig";
 
-// Decorative coin on the menu screen
 interface MenuCoin {
   x: number;
   y: number;
@@ -23,24 +22,38 @@ interface MenuCoin {
 export class MenuScene extends Scene {
   private readonly background: BackgroundRenderer;
   private readonly soundManager: SoundManager;
+  private readonly onStartGame: () => Promise<void>;
+  private readonly onInstallApp: (() => void) | null;
   private elapsed: number = 0;
   private highScore: number;
   private readonly menuCoins: MenuCoin[] = [];
 
-  // Button hit area for mouse/touch
+  // Start button
   private readonly btnX: number;
   private readonly btnY: number;
   private readonly btnW: number = 260;
   private readonly btnH: number = 56;
   private btnHover: boolean = false;
 
-  constructor(soundManager: SoundManager) {
+  // Install button (below start button)
+  private readonly installBtnX: number;
+  private readonly installBtnY: number;
+  private readonly installBtnW: number = 200;
+  private readonly installBtnH: number = 40;
+  private installBtnHover: boolean = false;
+  private showInstallBtn: boolean = false;
+
+  constructor(soundManager: SoundManager, onStartGame: () => Promise<void>, onInstallApp: (() => void) | null = null) {
     super();
     this.background = new BackgroundRenderer(50);
     this.soundManager = soundManager;
+    this.onStartGame = onStartGame;
+    this.onInstallApp = onInstallApp;
     this.highScore = StorageManager.getNumber(STORAGE_HIGH_SCORE_KEY, 0);
     this.btnX = GAME_WIDTH / 2 - 130;
     this.btnY = GAME_HEIGHT / 2 + 50;
+    this.installBtnX = GAME_WIDTH / 2 - this.installBtnW / 2;
+    this.installBtnY = this.btnY + this.btnH + 16;
 
     // Spawn decorative falling coins across the screen
     const colors = [
@@ -67,6 +80,16 @@ export class MenuScene extends Scene {
         wobble: 0,
       });
     }
+  }
+
+  /** Called from main.ts when beforeinstallprompt fires */
+  public setInstallAvailable(available: boolean): void {
+    this.showInstallBtn = available;
+  }
+
+  /** Force show install button (for testing or fallback) */
+  public forceShowInstall(): void {
+    this.showInstallBtn = true;
   }
 
   public enter(): void {
@@ -99,23 +122,49 @@ export class MenuScene extends Scene {
       mx >= this.btnX && mx <= this.btnX + this.btnW &&
       my >= this.btnY && my <= this.btnY + this.btnH;
 
+    this.installBtnHover = this.showInstallBtn &&
+      mx >= this.installBtnX && mx <= this.installBtnX + this.installBtnW &&
+      my >= this.installBtnY && my <= this.installBtnY + this.installBtnH;
+
+    // Install button click (mouse or touch)
+    if (this.showInstallBtn && this.onInstallApp) {
+      if (input.isMousePressed() && this.installBtnHover) {
+        this.onInstallApp();
+        return;
+      }
+      if (input.isTouchPressed()) {
+        const tx = input.getTouchX();
+        const ty = input.getTouchY();
+        if (tx >= this.installBtnX && tx <= this.installBtnX + this.installBtnW &&
+            ty >= this.installBtnY && ty <= this.installBtnY + this.installBtnH) {
+          this.onInstallApp();
+          return;
+        }
+      }
+    }
+
     // Start game triggers
     if (input.isKeyPressed(KEY_ENTER) || input.isKeyPressed(KEY_SPACE)) {
-      this.soundManager.play("uiClick");
-      this.switchTo("play");
+      this.startGame();
       return;
     }
 
     if (input.isMousePressed()) {
-      this.soundManager.play("uiClick");
-      this.switchTo("play");
+      this.startGame();
       return;
     }
 
     if (input.isTouchPressed()) {
-      this.soundManager.play("uiClick");
-      this.switchTo("play");
+      this.startGame();
     }
+  }
+
+  private startGame(): void {
+    this.soundManager.play("uiClick");
+    // Request fullscreen on mobile, then switch scene
+    this.onStartGame().finally(() => {
+      this.switchTo("play");
+    });
   }
 
   public render(renderer: Renderer): void {
@@ -246,8 +295,15 @@ export class MenuScene extends Scene {
     // ── START BUTTON ──────────────────────────────────────────
     this.drawStartButton(ctx);
 
+    // ── INSTALL BUTTON (when available) ───────────────────────
+    if (this.showInstallBtn) {
+      this.drawInstallButton(ctx);
+    }
+
     // ── CONTROLS ROW ──────────────────────────────────────────
-    const ctrlY = this.btnY + this.btnH + 38;
+    const ctrlY = this.showInstallBtn
+      ? this.installBtnY + this.installBtnH + 14
+      : this.btnY + this.btnH + 38;
     this.drawKeyBadge(ctx, GAME_WIDTH / 2 - 140, ctrlY, "←");
     this.drawKeyBadge(ctx, GAME_WIDTH / 2 - 98, ctrlY, "→");
     this.drawKeyBadge(ctx, GAME_WIDTH / 2 - 56, ctrlY, "↑");
@@ -262,14 +318,14 @@ export class MenuScene extends Scene {
 
     // Mobile touch hint
     const touchY = ctrlY + 52;
-    renderer.fillText("📱  Mobile: 4-direction D-pad (bottom-left) or drag on screen", GAME_WIDTH / 2, touchY, {
+    renderer.fillText("📱  Mobile: D-pad (bottom-left) or tap to move", GAME_WIDTH / 2, touchY, {
       color: "#64748b",
       font: "13px Arial",
       align: "center",
     });
 
     // Miss 3 coins = game over hint
-    renderer.fillText("Miss 3 coins → Game Over  |  60 second timer  |  3 difficulty stages",
+    renderer.fillText("Miss 3 coins → Game Over  |  60 second timer  |  3 stages",
       GAME_WIDTH / 2, touchY + 20, {
         color: "#475569",
         font: "12px Arial",
@@ -278,6 +334,58 @@ export class MenuScene extends Scene {
   }
 
   // ─── Helpers ──────────────────────────────────────────────────────────────
+
+  private drawInstallButton(ctx: CanvasRenderingContext2D): void {
+    const x = this.installBtnX;
+    const y = this.installBtnY;
+    const w = this.installBtnW;
+    const h = this.installBtnH;
+    const r = 20;
+    const pulse = 0.8 + 0.2 * Math.sin(this.elapsed * 2.5);
+    const hov = this.installBtnHover;
+
+    ctx.save();
+    // Glow
+    ctx.shadowColor = `rgba(99, 179, 237, ${0.4 * pulse})`;
+    ctx.shadowBlur = hov ? 20 : 12;
+
+    // Body
+    const grad = ctx.createLinearGradient(x, y, x, y + h);
+    grad.addColorStop(0, hov ? "#90cdf4" : "#63b3ed");
+    grad.addColorStop(1, hov ? "#3182ce" : "#2b6cb0");
+    ctx.beginPath();
+    this.roundRect(ctx, x, y, w, h, r);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Sheen
+    const sheen = ctx.createLinearGradient(x, y, x, y + h * 0.5);
+    sheen.addColorStop(0, "rgba(255,255,255,0.25)");
+    sheen.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.beginPath();
+    this.roundRect(ctx, x + 2, y + 2, w - 4, h * 0.5, r - 2);
+    ctx.fillStyle = sheen;
+    ctx.fill();
+
+    ctx.shadowBlur = 0;
+    ctx.strokeStyle = "rgba(255,255,255,0.25)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    this.roundRect(ctx, x, y, w, h, r);
+    ctx.stroke();
+    ctx.restore();
+
+    // Label
+    ctx.save();
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "bold 15px Arial";
+    ctx.fillStyle = "#fff";
+    ctx.shadowColor = "rgba(0,0,0,0.4)";
+    ctx.shadowBlur = 4;
+    ctx.fillText("📲  Install App", x + w / 2, y + h / 2 + 1);
+    ctx.restore();
+  }
 
   private drawStartButton(ctx: CanvasRenderingContext2D): void {
     const x = this.btnX;

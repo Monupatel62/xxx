@@ -20,6 +20,7 @@ export class Game {
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
+    // Initial size — will be updated by handleResize immediately
     canvas.width = GAME_WIDTH;
     canvas.height = GAME_HEIGHT;
 
@@ -31,6 +32,8 @@ export class Game {
     this.gameLoop = new GameLoop(this.update, this.render, FIXED_DELTA_TIME);
 
     window.addEventListener("resize", this.handleResize);
+    window.addEventListener("orientationchange", this.handleResize);
+    document.addEventListener("fullscreenchange", this.handleResize);
     window.addEventListener("keydown", this.handleDebugKey);
   }
 
@@ -58,6 +61,8 @@ export class Game {
   public stop(): void {
     this.gameLoop.stop();
     window.removeEventListener("resize", this.handleResize);
+    window.removeEventListener("orientationchange", this.handleResize);
+    document.removeEventListener("fullscreenchange", this.handleResize);
     window.removeEventListener("keydown", this.handleDebugKey);
     this.input.dispose();
   }
@@ -67,22 +72,46 @@ export class Game {
   }
 
   private handleResize = (): void => {
-    // Account for footer + ad container height so canvas never overflows
-    const footerEl = document.querySelector(".site-footer") as HTMLElement | null;
-    const adEl     = document.querySelector(".ad-container") as HTMLElement | null;
-    const footerH  = footerEl ? footerEl.offsetHeight : 40;
-    const adH      = adEl     ? adEl.offsetHeight     : 60;
-    const padding  = 8; // small breathing room
+    const isFullscreen = !!document.fullscreenElement;
 
-    const availW = window.innerWidth;
-    const availH = window.innerHeight - footerH - adH - padding;
+    let availW: number;
+    let availH: number;
 
-    const scale  = Math.min(availW / GAME_WIDTH, availH / GAME_HEIGHT);
-    const width  = Math.round(GAME_WIDTH  * scale);
-    const height = Math.round(GAME_HEIGHT * scale);
+    if (isFullscreen) {
+      availW = window.innerWidth;
+      availH = window.innerHeight;
+    } else {
+      const footerEl = document.querySelector(".site-footer") as HTMLElement | null;
+      const adEl     = document.querySelector(".ad-container") as HTMLElement | null;
+      const footerH  = footerEl ? footerEl.offsetHeight : 0;
+      const adH      = adEl     ? adEl.offsetHeight     : 0;
+      availW = window.innerWidth;
+      availH = window.innerHeight - footerH - adH - 4;
+    }
 
-    this.canvas.style.width  = `${width}px`;
-    this.canvas.style.height = `${height}px`;
+    // Internal resolution stays 800×600 always — game logic never changes
+    this.canvas.width  = GAME_WIDTH;
+    this.canvas.height = GAME_HEIGHT;
+    this.renderer.resize(GAME_WIDTH, GAME_HEIGHT);
+
+    if (isFullscreen) {
+      // Fullscreen: fill entire screen — stretch to fit, no black bars
+      this.canvas.style.width  = `${availW}px`;
+      this.canvas.style.height = `${availH}px`;
+      this.canvas.style.position = "fixed";
+      this.canvas.style.top  = "0";
+      this.canvas.style.left = "0";
+    } else {
+      // Normal mode: fit within available space keeping aspect ratio
+      const scale  = Math.min(availW / GAME_WIDTH, availH / GAME_HEIGHT);
+      const drawW  = Math.round(GAME_WIDTH  * scale);
+      const drawH  = Math.round(GAME_HEIGHT * scale);
+      this.canvas.style.width    = `${drawW}px`;
+      this.canvas.style.height   = `${drawH}px`;
+      this.canvas.style.position = "";
+      this.canvas.style.top      = "";
+      this.canvas.style.left     = "";
+    }
   };
 
   private handleDebugKey = (event: KeyboardEvent): void => {

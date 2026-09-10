@@ -16,15 +16,15 @@ interface DPadBtn {
  */
 export class MobileControls {
   // D-pad center — bottom-left, well clear of HUD
-  private static readonly PAD_CX  = 110;
-  private static readonly PAD_CY  = GAME_HEIGHT - 90;
-  private static readonly BTN_R   = 40;   // hit + visual radius
-  private static readonly BTN_GAP = 50;   // center-to-center distance
+  private static readonly PAD_CX  = 90;
+  private static readonly PAD_CY  = GAME_HEIGHT - 75;
+  private static readonly BTN_R   = 26;   // hit + visual radius — finger-friendly but not oversized
+  private static readonly BTN_GAP = 34;   // center-to-center distance
 
   // Pause button — top-right, below HUD bar
-  public static readonly PAUSE_X = GAME_WIDTH - 50;
-  public static readonly PAUSE_Y = 100;
-  public static readonly PAUSE_R = 28;
+  public static readonly PAUSE_X = GAME_WIDTH - 44;
+  public static readonly PAUSE_Y = 96;
+  public static readonly PAUSE_R = 22;
 
   private readonly buttons: Record<"left" | "right" | "up" | "down", DPadBtn>;
   private pausePressed: boolean = false;
@@ -137,7 +137,7 @@ export class MobileControls {
     // Arrow label
     ctx.textAlign    = "center";
     ctx.textBaseline = "middle";
-    ctx.font         = `bold ${pressed ? 22 : 20}px Arial`;
+    ctx.font         = `bold ${pressed ? 15 : 14}px Arial`;
     ctx.fillStyle    = pressed ? "#fff" : "rgba(203,213,225,0.9)";
     ctx.shadowBlur   = 0;
     ctx.fillText(label, cx, cy + 1);

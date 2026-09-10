@@ -8,6 +8,7 @@ import { EVT_GAME_OVER, GameResult } from "../managers/ScoreManager";
 import { KEY_ENTER, KEY_SPACE } from "../config/InputConfig";
 import { GameOverOverlay } from "../ui/GameOverOverlay";
 import { GameOverCause, GameOverPayload } from "./PlayScene";
+import { enterFullscreen } from "../main";
 
 export class GameOverScene extends Scene {
   private readonly overlay: GameOverOverlay;
@@ -17,10 +18,8 @@ export class GameOverScene extends Scene {
   private cause: GameOverCause = "time";
   private readonly unsubscribeGameOver: () => void;
 
-  // Small delay before accepting input — prevents accidental instant-restart
-  // if the touch that triggered game-over is still being processed.
   private inputDelay: number = 0;
-  private static readonly INPUT_DELAY = 0.6; // seconds
+  private static readonly INPUT_DELAY = 0.6;
 
   constructor(eventBus: EventBus, soundManager: SoundManager) {
     super();
@@ -34,13 +33,10 @@ export class GameOverScene extends Scene {
   }
 
   public enter(): void {
-    // Reset delay every time we enter this scene
     this.inputDelay = GameOverScene.INPUT_DELAY;
   }
 
-  public exit(): void {
-    // Nothing to clean up per-session.
-  }
+  public exit(): void {}
 
   public destroy(): void {
     this.unsubscribeGameOver();
@@ -49,25 +45,21 @@ export class GameOverScene extends Scene {
   public update(deltaTime: number, input: Input): void {
     this.background.update(deltaTime);
 
-    // Wait for input delay before accepting any restart input
     if (this.inputDelay > 0) {
       this.inputDelay -= deltaTime;
       return;
     }
 
-    // Keyboard
     if (input.isKeyPressed(KEY_ENTER) || input.isKeyPressed(KEY_SPACE)) {
       this.restart();
       return;
     }
 
-    // Mouse click
     if (input.isMousePressed()) {
       this.restart();
       return;
     }
 
-    // Touch tap — works on mobile play-again
     if (input.isTouchPressed()) {
       this.restart();
       return;
@@ -85,6 +77,9 @@ export class GameOverScene extends Scene {
 
   private restart(): void {
     this.soundManager.play("uiClick");
-    this.switchTo("play");
+    // Re-enter fullscreen if not already (e.g. user pressed ESC to exit)
+    enterFullscreen().finally(() => {
+      this.switchTo("play");
+    });
   }
 }

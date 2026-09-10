@@ -23,11 +23,13 @@ body {
   border: 0;
 }
 
+/* ── Game canvas container ──────────────────────────────────────────────────── */
 #app {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  /* On small screens leave room for header/footer without overflowing */
+  min-height: 0;
 }
 
 canvas {
@@ -37,9 +39,91 @@ canvas {
   box-shadow:
     0 0 40px rgba(74, 222, 128, 0.15),
     0 0 80px rgba(0, 0, 0, 0.8);
+  /* Prevent the browser from hijacking touch gestures (scroll/zoom)
+     while the player is interacting with the game canvas.
+     Critical for mobile gameplay and prevents CLS from scroll jank. */
+  touch-action: none;
+  /* Let CSS scale the canvas display size without layout shifts.
+     The Game engine sets canvas.width/height in pixels; this scales
+     the rendered output to fit the viewport on small screens. */
+  max-width: 100%;
+  max-height: 100%;
 }
 
-/* Site footer — AdSense policy compliance */
+/* ── Responsive layout ──────────────────────────────────────────────────────── */
+
+/* Default (desktop): canvas is centered in the full viewport height.
+   The game engine's handleResize sets canvas.style.width/height in JS. */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh; /* dvh collapses mobile browser chrome correctly */
+}
+
+main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#app {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+/* ── SEO content section (below the canvas) ─────────────────────────────────── */
+/* Visible to crawlers and screen readers; visually de-emphasised  */
+.seo-content {
+  max-width: 800px;
+  width: 100%;
+  margin: 24px auto 0;
+  padding: 0 16px 32px;
+  color: #aaa;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.seo-content h2 {
+  font-size: 0.95rem;
+  color: #888;
+  margin: 20px 0 6px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.seo-content h3 {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 14px 0 4px;
+  font-weight: 600;
+}
+
+.seo-content p {
+  margin-bottom: 8px;
+  color: #888;
+}
+
+.seo-content ul {
+  margin: 4px 0 8px 20px;
+  color: #888;
+}
+
+.seo-content li {
+  margin-bottom: 4px;
+}
+
+/* ── Ad container ───────────────────────────────────────────────────────────── */
+.ad-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 8px;
+}
+
+/* ── Site footer ─────────────────────────────────────────────────────────────── */
+/* Required for AdSense policy compliance */
 .site-footer {
   text-align: center;
   padding: 12px 16px;
@@ -48,6 +132,8 @@ canvas {
   font-family: Arial, Helvetica, sans-serif;
   border-top: 1px solid #222;
   background: #111;
+  /* Prevent footer from shifting layout on load (avoids CLS) */
+  flex-shrink: 0;
 }
 
 .site-footer a {
@@ -55,14 +141,52 @@ canvas {
   text-decoration: none;
 }
 
-.site-footer a:hover {
+.site-footer a:hover,
+.site-footer a:focus {
   text-decoration: underline;
   color: #fff;
 }
 
-/* Ad container */
-.ad-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 8px;
+/* ── Tablet (≤768px) ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .seo-content {
+    padding: 0 12px 24px;
+  }
+
+  .ad-container {
+    padding: 0 4px;
+  }
+}
+
+/* ── Mobile (≤480px) ─────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  canvas {
+    border-radius: 4px;
+    border-width: 1px;
+  }
+
+  .site-footer {
+    font-size: 0.72rem;
+    padding: 10px 12px;
+  }
+
+  .seo-content {
+    font-size: 0.78rem;
+    padding: 0 10px 20px;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────────── */
+/* Respect user's OS-level "reduce motion" preference. The game itself
+   handles this at the Canvas level; here we just prevent any CSS
+   transitions from being distracting. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

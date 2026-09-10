@@ -30,6 +30,10 @@
 /terms.html
   Cache-Control: public, max-age=86400
 
+# ── 404 page — short cache so fixes propagate quickly ──────────────────────────
+/404.html
+  Cache-Control: public, max-age=3600
+
 # ── Images & icons ─────────────────────────────────────────────────────────────
 /favicon.svg
   Cache-Control: public, max-age=604800

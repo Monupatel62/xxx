@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1a1a2e" />
+    <title>Page Not Found (404) — Catch the Coin</title>
+    <meta
+      name="description"
+      content="The page you're looking for doesn't exist. Head back to Catch the Coin and play the free browser arcade game."
+    />
+    <!-- noindex: 404 pages must never appear in search results -->
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="https://xxx-g.netlify.app/404.html" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #1a1a2e;
+        color: #e0e0e0;
+        font-family: Arial, Helvetica, sans-serif;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        background: #16213e;
+        border-bottom: 2px solid #f5c842;
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      header a {
+        color: #f5c842;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 1rem;
+      }
+
+      header a:hover,
+      header a:focus {
+        text-decoration: underline;
+      }
+
+      .container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 24px;
+        text-align: center;
+      }
+
+      .error-code {
+        font-size: 6rem;
+        font-weight: bold;
+        color: #f5c842;
+        line-height: 1;
+        margin-bottom: 16px;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+        color: #f5c842;
+        margin-bottom: 16px;
+      }
+
+      p {
+        color: #aaa;
+        margin-bottom: 12px;
+        max-width: 480px;
+        line-height: 1.65;
+      }
+
+      .btn-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 28px;
+      }
+
+      .btn-primary {
+        display: inline-block;
+        padding: 14px 32px;
+        background: #f5c842;
+        color: #1a1a2e;
+        font-weight: bold;
+        font-size: 1rem;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: background 0.2s;
+      }
+
+      .btn-primary:hover,
+      .btn-primary:focus {
+        background: #ffe066;
+        color: #1a1a2e;
+      }
+
+      .btn-secondary {
+        display: inline-block;
+        padding: 13px 28px;
+        background: transparent;
+        color: #f5c842;
+        font-weight: bold;
+        font-size: 1rem;
+        text-decoration: none;
+        border: 2px solid #f5c842;
+        border-radius: 6px;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      .btn-secondary:hover,
+      .btn-secondary:focus {
+        background: #f5c842;
+        color: #1a1a2e;
+      }
+
+      .links {
+        margin-top: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 20px;
+        justify-content: center;
+      }
+
+      .links a {
+        color: #888;
+        font-size: 0.85rem;
+        text-decoration: none;
+      }
+
+      .links a:hover,
+      .links a:focus {
+        color: #f5c842;
+        text-decoration: underline;
+      }
+
+      footer {
+        text-align: center;
+        padding: 16px;
+        color: #555;
+        font-size: 0.78rem;
+        border-top: 1px solid #222;
+        background: #111;
+      }
+
+      footer a {
+        color: #f5c842;
+        text-decoration: none;
+      }
+
+      footer a:hover,
+      footer a:focus {
+        text-decoration: underline;
+        color: #fff;
+      }
+
+      @media (max-width: 480px) {
+        .error-code {
+          font-size: 4rem;
+        }
+
+        h1 {
+          font-size: 1.4rem;
+        }
+
+        .btn-group {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/">🪙 Catch the Coin</a>
+    </header>
+
+    <div class="container">
+      <p class="error-code" aria-hidden="true">404</p>
+      <h1>Page Not Found</h1>
+      <p>
+        The page you're looking for doesn't exist or has been moved. Don't worry — you can head
+        back and keep playing.
+      </p>
+
+      <nav class="btn-group" aria-label="Recovery navigation">
+        <a href="/" class="btn-primary">▶ Play Catch the Coin</a>
+        <a href="/about.html" class="btn-secondary">About the Game</a>
+      </nav>
+
+      <nav class="links" aria-label="Site links">
+        <a href="/">Home</a>
+        <a href="/about.html">About</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Use</a>
+      </nav>
+    </div>
+
+    <footer role="contentinfo">
+      <p>
+        &copy; 2025 Catch the Coin &nbsp;|&nbsp;
+        <a href="/">Play Game</a> &nbsp;|&nbsp;
+        <a href="/about.html">About</a> &nbsp;|&nbsp;
+        <a href="/privacy.html">Privacy Policy</a> &nbsp;|&nbsp;
+        <a href="/terms.html">Terms of Use</a>
+      </p>
+    </footer>
+  </body>
+</html>

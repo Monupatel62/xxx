@@ -13,89 +13,233 @@
     <link rel="canonical" href="https://xxx-g.netlify.app/privacy.html" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Catch the Coin" />
+    <meta property="og:title" content="Privacy Policy — Catch the Coin" />
+    <meta
+      property="og:description"
+      content="Privacy Policy for Catch the Coin. Learn how we collect and use data, including information about Google AdSense advertising on this site."
+    />
+    <meta property="og:url" content="https://xxx-g.netlify.app/privacy.html" />
+    <meta property="og:image" content="https://xxx-g.netlify.app/og-image.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Catch the Coin — basket catching falling gold coins arcade game"
+    />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@Monupatel62" />
+    <meta name="twitter:title" content="Privacy Policy — Catch the Coin" />
+    <meta
+      name="twitter:description"
+      content="Privacy Policy for Catch the Coin. Learn how we handle data including Google AdSense advertising."
+    />
+    <meta name="twitter:image" content="https://xxx-g.netlify.app/og-image.svg" />
+    <meta
+      name="twitter:image:alt"
+      content="Catch the Coin arcade game — basket catching falling gold coins"
+    />
+
+    <!-- Schema: BreadcrumbList -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Catch the Coin",
+            "item": "https://xxx-g.netlify.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Privacy Policy",
+            "item": "https://xxx-g.netlify.app/privacy.html"
+          }
+        ]
+      }
+    </script>
+
+    <!-- Schema: WebPage -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Privacy Policy — Catch the Coin",
+        "url": "https://xxx-g.netlify.app/privacy.html",
+        "description": "Privacy Policy for Catch the Coin explaining data collection, Google AdSense advertising, cookies, GDPR and CCPA rights.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Catch the Coin",
+          "url": "https://xxx-g.netlify.app/"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Catch the Coin",
+              "item": "https://xxx-g.netlify.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Privacy Policy",
+              "item": "https://xxx-g.netlify.app/privacy.html"
+            }
+          ]
+        }
+      }
+    </script>
+
     <style>
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
+
       body {
         background: #1a1a2e;
         color: #e0e0e0;
         font-family: Arial, Helvetica, sans-serif;
         line-height: 1.7;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
       }
+
       header {
         background: #16213e;
         border-bottom: 2px solid #f5c842;
         padding: 16px 24px;
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 8px;
+        flex-wrap: wrap;
       }
+
       header a {
         color: #f5c842;
         text-decoration: none;
         font-weight: bold;
         font-size: 1rem;
       }
-      header a:hover {
+
+      header a:hover,
+      header a:focus {
         text-decoration: underline;
       }
-      header span {
+
+      header .sep {
+        color: #555;
+        font-size: 0.9rem;
+      }
+
+      header .current {
         color: #aaa;
         font-size: 0.9rem;
       }
+
       .container {
         max-width: 800px;
         margin: 48px auto;
         padding: 0 24px 64px;
+        flex: 1;
       }
+
       h1 {
         font-size: 2rem;
         color: #f5c842;
         margin-bottom: 8px;
       }
+
       .last-updated {
         color: #aaa;
         font-size: 0.85rem;
         margin-bottom: 40px;
       }
+
       h2 {
         font-size: 1.25rem;
         color: #f5c842;
         margin: 32px 0 12px;
       }
+
       p {
         margin-bottom: 14px;
         color: #ccc;
       }
+
       ul {
         margin: 8px 0 16px 24px;
         color: #ccc;
       }
+
       li {
         margin-bottom: 8px;
       }
+
       a {
         color: #f5c842;
       }
-      a:hover {
+
+      a:hover,
+      a:focus {
         color: #fff;
       }
+
       footer {
         text-align: center;
-        padding: 24px;
+        padding: 16px 24px;
         color: #666;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         border-top: 1px solid #333;
+        background: #111;
+        flex-shrink: 0;
+      }
+
+      footer a {
+        color: #f5c842;
+        text-decoration: none;
+      }
+
+      footer a:hover,
+      footer a:focus {
+        text-decoration: underline;
+        color: #fff;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        .container {
+          margin: 28px auto;
+          padding: 0 16px 48px;
+        }
       }
     </style>
   </head>
   <body>
+    <!-- Breadcrumb navigation — matches BreadcrumbList schema above -->
     <header>
-      <a href="/">🪙 Catch the Coin</a>
-      <span>/ Privacy Policy</span>
+      <nav aria-label="Breadcrumb">
+        <a href="/">🪙 Catch the Coin</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <span class="current" aria-current="page">Privacy Policy</span>
+      </nav>
     </header>
 
     <div class="container">
@@ -247,7 +391,7 @@
       <ul>
         <li>Clearing your browser's local storage and cookies.</li>
         <li>Opting out of Google personalized advertising as described above.</li>
-        <li>Contacting us directly at the email below.</li>
+        <li>Contacting us directly via the link below.</li>
       </ul>
 
       <h2>8. Changes to This Policy</h2>
@@ -266,7 +410,7 @@
       </p>
     </div>
 
-    <footer>
+    <footer role="contentinfo">
       <p>
         &copy; 2025 Catch the Coin &nbsp;|&nbsp;
         <a href="/">Play Game</a> &nbsp;|&nbsp;

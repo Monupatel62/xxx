@@ -6,13 +6,20 @@
   NODE_VERSION = "22"
   NPM_FLAGS = "--prefer-offline"
 
-# SPA fallback — all routes resolve to index.html
+# ── SPA fallback ───────────────────────────────────────────────────────────────
+# Serve index.html for all routes the SPA handles client-side.
+# The 404 rule must come FIRST so unmatched paths get the proper 404 page.
+[[redirects]]
+  from = "/404"
+  to = "/404.html"
+  status = 404
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# ── Security headers on all responses ─────────────────────────────────────────
+# ── Security & cache headers on all responses ──────────────────────────────────
 [[headers]]
   for = "/*"
   [headers.values]
@@ -23,13 +30,24 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Cache-Control = "public, max-age=3600, must-revalidate"
 
-# ── Hashed JS/CSS assets — cache 1 year (Vite adds content hash) ──────────────
+# ── Main game page — short cache so players always get latest version ──────────
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+# ── Hashed JS/CSS assets — cache 1 year (Vite adds content hash to filename) ──
 [[headers]]
   for = "/assets/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# ── Static pages ──────────────────────────────────────────────────────────────
+# ── Static pages ───────────────────────────────────────────────────────────────
 [[headers]]
   for = "/about.html"
   [headers.values]
@@ -44,6 +62,12 @@
   for = "/terms.html"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+
+# ── 404 page — short cache so fixes propagate quickly ─────────────────────────
+[[headers]]
+  for = "/404.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
 
 # ── PWA manifest ──────────────────────────────────────────────────────────────
 [[headers]]
@@ -68,7 +92,7 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
-# ── Icons ─────────────────────────────────────────────────────────────────────
+# ── Icons & images ────────────────────────────────────────────────────────────
 [[headers]]
   for = "/favicon.svg"
   [headers.values]

@@ -13,71 +13,186 @@
     <link rel="canonical" href="https://xxx-g.netlify.app/about.html" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Catch the Coin" />
+    <meta property="og:title" content="About Catch the Coin — Free Browser Arcade Game" />
+    <meta
+      property="og:description"
+      content="Learn about Catch the Coin — a free TypeScript and HTML5 Canvas browser arcade game. Catch falling gold coins, survive 3 difficulty stages, and beat your high score."
+    />
+    <meta property="og:url" content="https://xxx-g.netlify.app/about.html" />
+    <meta property="og:image" content="https://xxx-g.netlify.app/og-image.svg" />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Catch the Coin — basket catching falling gold coins arcade game"
+    />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Monupatel62" />
+    <meta name="twitter:title" content="About Catch the Coin — Free Browser Arcade Game" />
+    <meta
+      name="twitter:description"
+      content="Free TypeScript arcade game built from scratch with HTML5 Canvas. Catch falling coins, 3 difficulty stages, high score system, no download needed."
+    />
+    <meta name="twitter:image" content="https://xxx-g.netlify.app/og-image.svg" />
+    <meta
+      name="twitter:image:alt"
+      content="Catch the Coin arcade game — basket catching falling gold coins"
+    />
+
+    <!-- Schema: BreadcrumbList -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Catch the Coin",
+            "item": "https://xxx-g.netlify.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About",
+            "item": "https://xxx-g.netlify.app/about.html"
+          }
+        ]
+      }
+    </script>
+
+    <!-- Schema: WebPage -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "About Catch the Coin",
+        "url": "https://xxx-g.netlify.app/about.html",
+        "description": "Information about Catch the Coin — a free browser-based arcade game built with TypeScript and HTML5 Canvas. Includes gameplay instructions, controls, features, developer background, and technology stack.",
+        "inLanguage": "en",
+        "isPartOf": {
+          "@type": "WebSite",
+          "name": "Catch the Coin",
+          "url": "https://xxx-g.netlify.app/"
+        },
+        "breadcrumb": {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Catch the Coin",
+              "item": "https://xxx-g.netlify.app/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "About",
+              "item": "https://xxx-g.netlify.app/about.html"
+            }
+          ]
+        }
+      }
+    </script>
+
     <style>
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
       }
+
       body {
         background: #1a1a2e;
         color: #e0e0e0;
         font-family: Arial, Helvetica, sans-serif;
         line-height: 1.7;
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
       }
+
       header {
         background: #16213e;
         border-bottom: 2px solid #f5c842;
         padding: 16px 24px;
         display: flex;
         align-items: center;
-        gap: 16px;
+        gap: 8px;
+        flex-wrap: wrap;
       }
+
       header a {
         color: #f5c842;
         text-decoration: none;
         font-weight: bold;
         font-size: 1rem;
       }
-      header a:hover {
+
+      header a:hover,
+      header a:focus {
         text-decoration: underline;
       }
-      header span {
+
+      header .sep {
+        color: #555;
+        font-size: 0.9rem;
+      }
+
+      header .current {
         color: #aaa;
         font-size: 0.9rem;
       }
+
       .container {
         max-width: 800px;
         margin: 48px auto;
         padding: 0 24px 64px;
+        flex: 1;
       }
+
       h1 {
         font-size: 2rem;
         color: #f5c842;
         margin-bottom: 16px;
       }
+
       h2 {
         font-size: 1.25rem;
         color: #f5c842;
         margin: 32px 0 12px;
       }
+
       p {
         margin-bottom: 14px;
         color: #ccc;
       }
+
       ul {
         margin: 8px 0 16px 24px;
         color: #ccc;
       }
+
       li {
         margin-bottom: 8px;
       }
+
       a {
         color: #f5c842;
       }
-      a:hover {
+
+      a:hover,
+      a:focus {
         color: #fff;
       }
+
       .play-btn {
         display: inline-block;
         margin: 24px 0;
@@ -90,16 +205,20 @@
         border-radius: 6px;
         transition: background 0.2s;
       }
-      .play-btn:hover {
+
+      .play-btn:hover,
+      .play-btn:focus {
         background: #ffe066;
         color: #1a1a2e;
       }
+
       .tech-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 16px;
         margin: 16px 0;
       }
+
       .tech-card {
         background: #16213e;
         border: 1px solid #333;
@@ -107,28 +226,63 @@
         padding: 16px;
         text-align: center;
       }
+
       .tech-card strong {
         display: block;
         color: #f5c842;
         margin-bottom: 6px;
       }
+
       .tech-card span {
         color: #aaa;
         font-size: 0.85rem;
       }
+
       footer {
         text-align: center;
-        padding: 24px;
+        padding: 16px 24px;
         color: #666;
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         border-top: 1px solid #333;
+        background: #111;
+        flex-shrink: 0;
+      }
+
+      footer a {
+        color: #f5c842;
+        text-decoration: none;
+      }
+
+      footer a:hover,
+      footer a:focus {
+        text-decoration: underline;
+        color: #fff;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.6rem;
+        }
+
+        .container {
+          margin: 28px auto;
+          padding: 0 16px 48px;
+        }
+
+        .tech-grid {
+          grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        }
       }
     </style>
   </head>
   <body>
+    <!-- Breadcrumb navigation — matches BreadcrumbList schema above -->
     <header>
-      <a href="/">🪙 Catch the Coin</a>
-      <span>/ About</span>
+      <nav aria-label="Breadcrumb">
+        <a href="/">🪙 Catch the Coin</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <span class="current" aria-current="page">About</span>
+      </nav>
     </header>
 
     <div class="container">
@@ -150,14 +304,14 @@
           right.
         </li>
         <li><strong>Mobile / Tablet:</strong> Tap the screen to move the basket toward that spot.</li>
-        <li>Catch a gold coin → earn 10 points.</li>
+        <li>Catch a gold coin → earn 10 points. Silver coin → 5 points. Bonus star → 25 points.</li>
         <li>Miss 3 coins → game over.</li>
         <li>Survive all 3 difficulty stages within 60 seconds for the top score.</li>
       </ul>
 
       <h2>Game Controls</h2>
       <ul>
-        <li><strong>← →</strong> or <strong>A / D</strong> — Move basket</li>
+        <li><strong>← →</strong> or <strong>A / D</strong> — Move basket left / right</li>
         <li><strong>ESC</strong> or <strong>P</strong> — Pause / Resume</li>
         <li><strong>M</strong> — Mute / Unmute sound</li>
       </ul>
@@ -165,14 +319,16 @@
       <h2>Game Features</h2>
       <ul>
         <li>60-second countdown timer — score as many coins as you can</li>
-        <li>3 difficulty stages — coins fall faster and spawn more frequently</li>
+        <li>3 difficulty stages — coins fall faster and spawn more frequently each stage</li>
+        <li>Three coin types: gold (10 pts), silver (5 pts), bonus star (25 pts)</li>
+        <li>Combo multiplier up to ×4 for consecutive catches</li>
         <li>High score saved locally — your best score persists between sessions</li>
         <li>Particle effects on coin catch and miss</li>
         <li>Synthesized Web Audio API sound effects and background music</li>
         <li>Pause anytime and resume where you left off</li>
         <li>Works on Chrome, Firefox, Safari, Edge, and any modern browser</li>
         <li>Touch-friendly for mobile and tablet play</li>
-        <li>Completely free — no ads interrupting gameplay, no account needed</li>
+        <li>Completely free — supported by non-intrusive ads below the game</li>
       </ul>
 
       <h2>About the Developer</h2>
@@ -229,14 +385,13 @@
 
       <h2>Advertising</h2>
       <p>
-        This site is supported by Google AdSense advertising. Ads help keep the game free. We only
-        display non-intrusive ads that do not interfere with gameplay. For more information on how
-        advertising data is used, see our
-        <a href="/privacy.html">Privacy Policy</a>.
+        This site is supported by Google AdSense advertising. Ads appear below the game canvas and
+        help keep the game free for everyone. For more information on how advertising data is used,
+        see our <a href="/privacy.html">Privacy Policy</a>.
       </p>
     </div>
 
-    <footer>
+    <footer role="contentinfo">
       <p>
         &copy; 2025 Catch the Coin &nbsp;|&nbsp;
         <a href="/">Play Game</a> &nbsp;|&nbsp;

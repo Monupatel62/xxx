@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /dist/
+
+# Do not index the 404 error page
+Disallow: /404.html
 
 Sitemap: https://xxx-g.netlify.app/sitemap.xml

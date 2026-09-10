@@ -4,4 +4,4 @@ Allow: /
 # Do not index the 404 error page
 Disallow: /404.html
 
-Sitemap: https://xxx-g.netlify.app/sitemap.xml
+Sitemap: https://catchthecoins.netlify.app/sitemap.xml

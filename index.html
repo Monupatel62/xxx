@@ -43,19 +43,7 @@
     <!-- ═══════════════════════════════════════════════════
          PRECONNECT — third-party origins used on this page
     ════════════════════════════════════════════════════ -->
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
-    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
-    <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin />
-
-    <!-- ═══════════════════════════════════════════════════
-         GOOGLE ADSENSE — Publisher: ca-pub-6559415115248669
-         Keep this tag in <head> for AdSense crawl & approval.
-    ════════════════════════════════════════════════════ -->
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6559415115248669"
-      crossorigin="anonymous"
-    ></script>
+    <link rel="preconnect" href="https://5gvci.com" crossorigin />
 
     <!-- ═══════════════════════════════════════════════════
          FAVICON & MANIFEST
@@ -262,30 +250,6 @@
       <!-- Game canvas: rendered by TypeScript / HTML5 Canvas API -->
       <div id="app" role="application" aria-label="Catch the Coin arcade game"></div>
 
-      <!-- ═══════════════════════════════════════════════════
-           AD SLOT — Below game canvas
-           Replace data-ad-slot value with your real ad unit
-           slot ID from the AdSense dashboard after creating
-           an ad unit of type "Display" or "Responsive".
-      ════════════════════════════════════════════════════ -->
-      <div
-        class="ad-container"
-        aria-label="Advertisement"
-        style="text-align: center; margin-top: 12px"
-      >
-        <ins
-          class="adsbygoogle"
-          style="display: block"
-          data-ad-client="ca-pub-6559415115248669"
-          data-ad-slot="XXXXXXXXXX"
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        ></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-      </div>
-
       <!-- SEO content: visible to crawlers, accessible to screen readers -->
       <section class="seo-content" aria-label="Game information">
         <h2>How to Play Catch the Coin</h2>
@@ -355,7 +319,7 @@
       </noscript>
     </main>
 
-    <!-- Site footer — required for AdSense policy compliance -->
+    <!-- Site footer -->
     <footer class="site-footer" role="contentinfo">
       <p>
         &copy; 2025 Catch the Coin &nbsp;&mdash;&nbsp;
@@ -366,5 +330,14 @@
     </footer>
 
     <script type="module" src="/src/main.ts"></script>
+
+    <!-- Service Worker registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
   </body>
 </html>

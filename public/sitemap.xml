@@ -3,7 +3,7 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
 >
-  <!-- Main game page — highest priority -->
+  <!-- Main game page — highest priority, weekly updates -->
   <url>
     <loc>https://catchthecoins.netlify.app/</loc>
     <lastmod>2025-09-10</lastmod>
@@ -16,12 +16,12 @@
     </image:image>
   </url>
 
-  <!-- About page -->
+  <!-- About page — game guide, controls, tips -->
   <url>
     <loc>https://catchthecoins.netlify.app/about.html</loc>
     <lastmod>2025-09-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 
   <!-- Privacy Policy -->
@@ -29,7 +29,7 @@
     <loc>https://catchthecoins.netlify.app/privacy.html</loc>
     <lastmod>2025-09-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.4</priority>
   </url>
 
   <!-- Terms of Use -->
@@ -37,9 +37,8 @@
     <loc>https://catchthecoins.netlify.app/terms.html</loc>
     <lastmod>2025-09-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.4</priority>
   </url>
 
-  <!-- NOTE: 404.html is intentionally excluded from the sitemap.
-       It carries meta robots noindex and must not appear in search results. -->
+  <!-- NOTE: 404.html intentionally excluded — carries meta noindex -->
 </urlset>

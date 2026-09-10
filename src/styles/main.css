@@ -50,6 +50,9 @@ main {
   width: 100%;
   flex: 1 1 auto;
   min-height: 0;
+  /* Ensure game container stays above ad network overlays */
+  position: relative;
+  z-index: 10;
 }
 
 /* ── Canvas ──────────────────────────────────────────────────────────────── */
@@ -61,9 +64,12 @@ canvas {
   box-shadow:
     0 0 40px rgba(74, 222, 128, 0.15),
     0 0 80px rgba(0, 0, 0, 0.8);
-  /* CRITICAL: prevent browser from stealing touch events for scroll/zoom */
+  /* CRITICAL: prevent browser scroll/zoom hijacking touch events */
   touch-action: none;
-  /* Scale down on small screens */
+  /* Ensure canvas is always on top of any ad overlays */
+  position: relative;
+  z-index: 10;
+  /* Scale to fit viewport */
   max-width: 100%;
   max-height: 100%;
 }

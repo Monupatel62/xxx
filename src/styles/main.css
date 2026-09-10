@@ -1,48 +1,172 @@
+/* ── Reset ───────────────────────────────────────────────────────────────── */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
 }
 
 body {
-  background: #0f0c29;
+  background: #0a0818;
   overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  color: #e0e0e0;
 }
 
-/* ── Visually hidden (screen-reader / SEO) ───────────────────────────────── */
+/* ── Visually hidden (SEO / screen-reader) ───────────────────────────────── */
 .visually-hidden {
   position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
 }
 
-/* ── Main layout ─────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   SITE NAVBAR
+═══════════════════════════════════════════════════════════════════════════ */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 8, 24, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(250, 204, 21, 0.2);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+.nav-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Logo */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.nav-logo-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.nav-logo-text {
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: #e2e8f0;
+  letter-spacing: 0.01em;
+}
+
+.nav-logo-accent {
+  color: #facc15;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  flex: 1;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  background: rgba(250, 204, 21, 0.1);
+  color: #facc15;
+  outline: none;
+}
+
+.nav-link.active {
+  background: rgba(74, 222, 128, 0.12);
+  color: #4ade80;
+}
+
+/* Nav install button */
+.nav-install-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 16px;
+  background: linear-gradient(135deg, #4ade80, #16a34a);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: bold;
+  font-family: Arial, Helvetica, sans-serif;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.3);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.nav-install-btn:hover,
+.nav-install-btn:focus {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+  outline: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════════════════════════════════════════ */
 main {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background: linear-gradient(135deg, #0f0c29 0%, #111 50%, #0f0c29 100%);
+  background: linear-gradient(180deg, #0f0c29 0%, #0a0818 40%, #0d0b22 100%);
 }
 
-/* ── Game canvas container ───────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   GAME SECTION
+═══════════════════════════════════════════════════════════════════════════ */
+.game-section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 8px 0 4px;
+}
+
 #app {
   display: flex;
   justify-content: center;
@@ -50,12 +174,10 @@ main {
   width: 100%;
   flex: 1 1 auto;
   min-height: 0;
-  /* Ensure game container stays above ad network overlays */
   position: relative;
   z-index: 10;
 }
 
-/* ── Canvas ──────────────────────────────────────────────────────────────── */
 canvas {
   display: block;
   background: #1a1a2e;
@@ -64,150 +186,369 @@ canvas {
   box-shadow:
     0 0 40px rgba(74, 222, 128, 0.15),
     0 0 80px rgba(0, 0, 0, 0.8);
-  /* CRITICAL: prevent browser scroll/zoom hijacking touch events */
   touch-action: none;
-  /* Ensure canvas is always on top of any ad overlays */
   position: relative;
   z-index: 10;
-  /* Scale to fit viewport */
   max-width: 100%;
   max-height: 100%;
 }
 
-/* ── Fullscreen mode ─────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   FULLSCREEN
+═══════════════════════════════════════════════════════════════════════════ */
 :fullscreen,
 :-webkit-full-screen {
-  background: #0f0c29 !important;
+  background: #000 !important;
 }
 
 :fullscreen canvas,
 :-webkit-full-screen canvas {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
+  top: 0 !important; left: 0 !important;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  /* Stretch to fill — no black bars */
   width: 100vw !important;
   height: 100vh !important;
-  /* Smooth scaling of 800x600 internal res */
   image-rendering: auto;
+  z-index: 9999 !important;
 }
 
-:fullscreen .ad-container,
-:-webkit-full-screen .ad-container,
-:fullscreen .seo-content,
-:-webkit-full-screen .seo-content,
+:fullscreen .site-nav,
+:-webkit-full-screen .site-nav,
+:fullscreen .badges-row,
+:-webkit-full-screen .badges-row,
+:fullscreen .features-section,
+:-webkit-full-screen .features-section,
+:fullscreen .info-section,
+:-webkit-full-screen .info-section,
+:fullscreen .faq-section,
+:-webkit-full-screen .faq-section,
 :fullscreen .site-footer,
-:-webkit-full-screen .site-footer,
-:fullscreen header,
-:-webkit-full-screen header {
+:-webkit-full-screen .site-footer {
   display: none !important;
 }
 
-/* ── Ad container ────────────────────────────────────────────────────────── */
-.ad-container {
-  max-width: 800px;
+/* ═══════════════════════════════════════════════════════════════════════════
+   BADGES ROW
+═══════════════════════════════════════════════════════════════════════════ */
+.badges-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px 4px;
   width: 100%;
-  margin: 0 auto;
-  padding: 4px 8px;
-  flex-shrink: 0;
+  max-width: 860px;
 }
 
-/* ── SEO content section ─────────────────────────────────────────────────── */
-.seo-content {
-  max-width: 800px;
-  width: 100%;
-  margin: 12px auto 0;
-  padding: 0 16px 24px;
-  color: #aaa;
-  font-size: 0.82rem;
-  line-height: 1.65;
-  flex-shrink: 0;
-}
-
-.seo-content h2 {
-  font-size: 0.9rem;
-  color: #888;
-  margin: 14px 0 5px;
-  font-weight: 600;
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
   letter-spacing: 0.02em;
-  text-transform: uppercase;
 }
 
-.seo-content h3 {
-  font-size: 0.82rem;
-  color: #777;
-  margin: 10px 0 3px;
-  font-weight: 600;
-}
+.badge-free    { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+.badge-instant { background: rgba(250,204,21,0.12); color: #facc15; border: 1px solid rgba(250,204,21,0.3); }
+.badge-no-dl   { background: rgba(251,146,60,0.12); color: #fb923c; border: 1px solid rgba(251,146,60,0.3); }
+.badge-mobile  { background: rgba(129,140,248,0.12); color: #818cf8; border: 1px solid rgba(129,140,248,0.3); }
+.badge-offline { background: rgba(34,211,238,0.12); color: #22d3ee; border: 1px solid rgba(34,211,238,0.3); }
 
-.seo-content p,
-.seo-content li {
-  color: #888;
-  margin-bottom: 4px;
-}
-
-.seo-content ul {
-  margin: 3px 0 6px 18px;
-}
-
-/* ── Site footer ─────────────────────────────────────────────────────────── */
-.site-footer {
-  text-align: center;
-  padding: 10px 16px;
-  color: #666;
-  font-size: 0.78rem;
-  border-top: 1px solid #222;
-  background: #111;
-  flex-shrink: 0;
+/* ═══════════════════════════════════════════════════════════════════════════
+   FEATURES SECTION
+═══════════════════════════════════════════════════════════════════════════ */
+.features-section {
   width: 100%;
+  max-width: 860px;
+  padding: 24px 16px 8px;
 }
 
-.site-footer a {
+.section-title {
+  font-size: 1.2rem;
   color: #f5c842;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.feature-card {
+  background: rgba(22, 33, 62, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.feature-card:hover {
+  border-color: rgba(250, 204, 21, 0.3);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.feature-card strong {
+  font-size: 0.95rem;
+  color: #f5c842;
+}
+
+.feature-card p {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HOW TO PLAY SECTION
+═══════════════════════════════════════════════════════════════════════════ */
+.info-section {
+  width: 100%;
+  max-width: 860px;
+  padding: 24px 16px 8px;
+}
+
+.info-inner {
+  background: rgba(22, 33, 62, 0.6);
+  border: 1px solid rgba(74, 222, 128, 0.15);
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+  justify-content: center;
+}
+
+.control-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.control-keys {
+  display: inline-block;
+  padding: 5px 14px;
+  background: rgba(30, 40, 70, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-bottom: 3px solid rgba(100, 116, 139, 0.5);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: bold;
+  color: #e2e8f0;
+  font-family: monospace;
+}
+
+.control-label {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.info-text {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.7;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.info-link {
+  display: inline-block;
+  color: #4ade80;
+  font-size: 0.85rem;
+  font-weight: bold;
   text-decoration: none;
+  transition: color 0.15s;
 }
 
-.site-footer a:hover,
-.site-footer a:focus {
+.info-link:hover,
+.info-link:focus {
+  color: #86efac;
   text-decoration: underline;
-  color: #fff;
 }
 
-/* ── PWA Install button ──────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   FAQ SECTION
+═══════════════════════════════════════════════════════════════════════════ */
+.faq-section {
+  width: 100%;
+  max-width: 860px;
+  padding: 24px 16px 32px;
+}
+
+.faq-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.faq-item {
+  background: rgba(16, 24, 48, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.faq-item:hover,
+.faq-item[open] {
+  border-color: rgba(250, 204, 21, 0.25);
+}
+
+.faq-item summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #e2e8f0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+}
+
+.faq-item summary::-webkit-details-marker { display: none; }
+
+.faq-item summary::after {
+  content: '＋';
+  font-size: 1rem;
+  color: #facc15;
+  flex-shrink: 0;
+  margin-left: 12px;
+  transition: transform 0.2s;
+}
+
+.faq-item[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.faq-item p {
+  padding: 0 18px 14px;
+  font-size: 0.84rem;
+  color: #94a3b8;
+  line-height: 1.65;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SITE FOOTER
+═══════════════════════════════════════════════════════════════════════════ */
+.site-footer {
+  width: 100%;
+  background: #060412;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.footer-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  color: #e2e8f0;
+}
+
+.footer-logo strong {
+  color: #facc15;
+}
+
+.footer-tagline {
+  font-size: 0.75rem;
+  color: #475569;
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 16px;
+}
+
+.footer-nav a {
+  font-size: 0.82rem;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-nav a:hover,
+.footer-nav a:focus {
+  color: #facc15;
+}
+
+.footer-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-meta p {
+  font-size: 0.72rem;
+  color: #374151;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PWA INSTALL BUTTON (footer / nav — shared styles)
+═══════════════════════════════════════════════════════════════════════════ */
 .pwa-install-btn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 4px 14px;
+  padding: 7px 16px;
   background: linear-gradient(135deg, #4ade80, #16a34a);
   color: #fff;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: bold;
   font-family: Arial, Helvetica, sans-serif;
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  vertical-align: middle;
-  box-shadow: 0 0 10px rgba(74, 222, 128, 0.35);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.3);
   transition: transform 0.15s, box-shadow 0.15s;
-  text-decoration: none;
 }
 
 .pwa-install-btn:hover,
 .pwa-install-btn:focus {
   transform: scale(1.05);
-  box-shadow: 0 0 16px rgba(74, 222, 128, 0.6);
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.55);
   outline: none;
 }
 
-.pwa-install-btn:active {
-  transform: scale(0.97);
-}
-
-/* ── iOS install hint overlay ────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   iOS INSTALL HINT OVERLAY
+═══════════════════════════════════════════════════════════════════════════ */
 @keyframes slideUp {
   from { transform: translateY(100%); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
@@ -237,29 +578,55 @@ canvas {
   cursor: pointer;
 }
 
-/* ── Desktop ─────────────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════════════════════ */
 @media (min-width: 769px) {
-  #app {
-    height: calc(100vh - 120px);
+  .game-section {
+    height: calc(100vh - 56px - 80px); /* viewport - navbar - badges */
   }
 }
 
-/* ── Tablet ──────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
+  .nav-inner {
+    padding: 0 14px;
+    gap: 12px;
+  }
+
+  .nav-logo-text {
+    font-size: 0.95rem;
+  }
+
+  .nav-link {
+    font-size: 0.82rem;
+    padding: 5px 10px;
+  }
+
   canvas {
     border-radius: 4px;
     border-width: 1px;
   }
 
-  .seo-content {
-    font-size: 0.76rem;
-    padding: 0 10px 14px;
-    margin-top: 6px;
+  .features-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+
+  .info-inner {
+    padding: 18px 16px;
   }
 }
 
-/* ── Mobile ──────────────────────────────────────────────────────────────── */
 @media (max-width: 480px) {
+  .nav-links {
+    gap: 2px;
+  }
+
+  .nav-link {
+    font-size: 0.78rem;
+    padding: 4px 8px;
+  }
+
   canvas {
     border-radius: 2px;
     border-width: 1px;
@@ -267,32 +634,49 @@ canvas {
 
   .site-footer {
     font-size: 0.68rem;
-    padding: 6px 10px;
   }
 
-  .seo-content {
-    font-size: 0.72rem;
-    margin-top: 4px;
+  .badges-row {
+    gap: 6px;
+    padding: 8px 12px 2px;
+  }
+
+  .badge {
+    font-size: 0.68rem;
+    padding: 3px 9px;
   }
 }
 
-/* ── Landscape phone — hide SEO/footer to give game more space ───────────── */
+/* Landscape phone — maximize game area */
 @media (max-height: 500px) and (orientation: landscape) {
-  .seo-content {
+  .badges-row,
+  .features-section,
+  .info-section,
+  .faq-section {
     display: none;
   }
 
   .site-footer {
-    padding: 3px 10px;
-    font-size: 0.64rem;
+    padding: 6px 12px;
+  }
+
+  .footer-logo,
+  .footer-meta {
+    display: none;
+  }
+
+  .footer-nav {
+    gap: 4px 12px;
+  }
+
+  .footer-nav a {
+    font-size: 0.72rem;
   }
 }
 
 /* ── Reduced motion ──────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

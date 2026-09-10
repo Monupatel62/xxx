@@ -5,6 +5,7 @@ import { GAME_WIDTH, GAME_HEIGHT } from "../config/GameConfig";
 export interface GameOverOverlayState {
   result: GameResult | null;
   cause: "time" | "lives";
+  inputReady?: boolean;
 }
 
 export class GameOverOverlay {
@@ -179,7 +180,10 @@ export class GameOverOverlay {
     ctx.restore();
 
     // Sub-hint
-    renderer.fillText("ENTER / SPACE / tap", GAME_WIDTH / 2, btnY + btnH + 18, {
+    const hintText = state.inputReady === false
+      ? "Get ready..."
+      : "ENTER · SPACE · tap anywhere";
+    renderer.fillText(hintText, GAME_WIDTH / 2, btnY + btnH + 18, {
       color: "rgba(255,255,255,0.28)",
       font: "12px Arial",
       align: "center",

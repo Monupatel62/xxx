@@ -116,6 +116,17 @@ export class PlayScene extends Scene {
       }
     }
 
+    // Mobile pause button tap
+    if (input.isTouchPressed() && this.mobileControls.isPausePressed()) {
+      this.stateManager.togglePause();
+      this.soundManager.play("pause");
+      if (this.stateManager.isPaused()) {
+        this.soundManager.stopMusic();
+      } else {
+        this.soundManager.startMusic();
+      }
+    }
+
     if (input.isKeyPressed(KEY_MUTE)) {
       this.soundManager.toggleMuted();
       this.soundManager.play("uiClick");

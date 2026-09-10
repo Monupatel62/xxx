@@ -112,7 +112,7 @@ export class MenuScene extends Scene {
       return;
     }
 
-    if (input.isTouchActive()) {
+    if (input.isTouchPressed()) {
       this.soundManager.play("uiClick");
       this.switchTo("play");
     }

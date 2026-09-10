@@ -51,6 +51,7 @@ export class Game {
   }
 
   public start(): void {
+    this.handleResize(); // apply correct size immediately
     this.gameLoop.start();
   }
 
@@ -66,10 +67,21 @@ export class Game {
   }
 
   private handleResize = (): void => {
-    const scale = Math.min(window.innerWidth / GAME_WIDTH, window.innerHeight / GAME_HEIGHT);
-    const width = Math.round(GAME_WIDTH * scale);
+    // Account for footer + ad container height so canvas never overflows
+    const footerEl = document.querySelector(".site-footer") as HTMLElement | null;
+    const adEl     = document.querySelector(".ad-container") as HTMLElement | null;
+    const footerH  = footerEl ? footerEl.offsetHeight : 40;
+    const adH      = adEl     ? adEl.offsetHeight     : 60;
+    const padding  = 8; // small breathing room
+
+    const availW = window.innerWidth;
+    const availH = window.innerHeight - footerH - adH - padding;
+
+    const scale  = Math.min(availW / GAME_WIDTH, availH / GAME_HEIGHT);
+    const width  = Math.round(GAME_WIDTH  * scale);
     const height = Math.round(GAME_HEIGHT * scale);
-    this.canvas.style.width = `${width}px`;
+
+    this.canvas.style.width  = `${width}px`;
     this.canvas.style.height = `${height}px`;
   };
 

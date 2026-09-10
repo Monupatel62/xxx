@@ -8,6 +8,9 @@ export class Input {
   private touchX: number = 0;
   private touchY: number = 0;
   private touchActive: boolean = false;
+  private touchPressed: boolean = false;   // true for exactly one frame after tap
+  private touchStartX: number = 0;
+  private touchStartY: number = 0;
   private readonly target: HTMLElement;
 
   constructor(target: HTMLElement) {
@@ -55,13 +58,27 @@ export class Input {
     return this.touchY;
   }
 
+  public getTouchStartX(): number {
+    return this.touchStartX;
+  }
+
+  public getTouchStartY(): number {
+    return this.touchStartY;
+  }
+
   public isTouchActive(): boolean {
     return this.touchActive;
+  }
+
+  /** True for exactly one frame when a touch tap is released. */
+  public isTouchPressed(): boolean {
+    return this.touchPressed;
   }
 
   public endFrame(): void {
     this.pressedKeys.clear();
     this.mousePressed = false;
+    this.touchPressed = false;
   }
 
   public dispose(): void {
@@ -92,6 +109,7 @@ export class Input {
     this.keys.clear();
     this.pressedKeys.clear();
     this.mouseDown = false;
+    this.touchActive = false;
   };
 
   private onMouseMove = (event: MouseEvent): void => {
@@ -127,6 +145,8 @@ export class Input {
       const scaleY = (this.target as HTMLCanvasElement).height / rect.height;
       this.touchX = (touch.clientX - rect.left) * scaleX;
       this.touchY = (touch.clientY - rect.top) * scaleY;
+      this.touchStartX = this.touchX;
+      this.touchStartY = this.touchY;
       this.touchActive = true;
     }
   };
@@ -146,8 +166,10 @@ export class Input {
 
   private onTouchEnd = (event: TouchEvent): void => {
     event.preventDefault();
+    // Record last known position for tap detection, then clear active state
+    this.touchPressed = true;
     this.touchActive = false;
-    this.touchX = 0;
-    this.touchY = 0;
+    // Keep touchX/Y at last position so scenes can read tap location
+    // They are cleared next frame via endFrame → touchPressed = false
   };
 }

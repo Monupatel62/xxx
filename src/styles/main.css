@@ -4,13 +4,20 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   background: linear-gradient(135deg, #0f0c29 0%, #111 50%, #0f0c29 100%);
   overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Screen-reader / SEO accessible but visually hidden */
+/* ── Visually hidden (screen-reader / SEO) ───────────────────────────────── */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -23,117 +30,105 @@ body {
   border: 0;
 }
 
-/* ── Game canvas container ──────────────────────────────────────────────────── */
+/* ── Main layout ─────────────────────────────────────────────────────────── */
+main {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* ── Game canvas container ───────────────────────────────────────────────── */
 #app {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* On small screens leave room for header/footer without overflowing */
+  width: 100%;
+  /* Take available space but never push footer off screen */
+  flex: 1 1 auto;
   min-height: 0;
 }
 
 canvas {
+  display: block;
   background: #1a1a2e;
   border: 2px solid #4ade80;
   border-radius: 8px;
   box-shadow:
     0 0 40px rgba(74, 222, 128, 0.15),
     0 0 80px rgba(0, 0, 0, 0.8);
-  /* Prevent the browser from hijacking touch gestures (scroll/zoom)
-     while the player is interacting with the game canvas.
-     Critical for mobile gameplay and prevents CLS from scroll jank. */
+  /* Prevent browser hijacking touch gestures (scroll/zoom) on mobile */
   touch-action: none;
-  /* Let CSS scale the canvas display size without layout shifts.
-     The Game engine sets canvas.width/height in pixels; this scales
-     the rendered output to fit the viewport on small screens. */
+  /* Scale canvas to fit viewport while keeping aspect ratio */
   max-width: 100%;
   max-height: 100%;
+  /* Ensure canvas never overflows its container */
+  object-fit: contain;
 }
 
-/* ── Responsive layout ──────────────────────────────────────────────────────── */
-
-/* Default (desktop): canvas is centered in the full viewport height.
-   The game engine's handleResize sets canvas.style.width/height in JS. */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh; /* dvh collapses mobile browser chrome correctly */
-}
-
-main {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#app {
-  flex: 1 1 auto;
+/* ── Ad container ────────────────────────────────────────────────────────── */
+.ad-container {
+  max-width: 800px;
   width: 100%;
+  margin: 0 auto;
+  padding: 4px 8px;
+  flex-shrink: 0;
 }
 
-/* ── SEO content section (below the canvas) ─────────────────────────────────── */
-/* Visible to crawlers and screen readers; visually de-emphasised  */
+/* ── SEO content section ─────────────────────────────────────────────────── */
 .seo-content {
   max-width: 800px;
   width: 100%;
-  margin: 24px auto 0;
-  padding: 0 16px 32px;
+  margin: 16px auto 0;
+  padding: 0 16px 24px;
   color: #aaa;
   font-size: 0.82rem;
   line-height: 1.65;
+  flex-shrink: 0;
 }
 
 .seo-content h2 {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #888;
-  margin: 20px 0 6px;
+  margin: 16px 0 5px;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
 .seo-content h3 {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: #777;
-  margin: 14px 0 4px;
+  margin: 12px 0 3px;
   font-weight: 600;
 }
 
 .seo-content p {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: #888;
 }
 
 .seo-content ul {
-  margin: 4px 0 8px 20px;
+  margin: 3px 0 6px 18px;
   color: #888;
 }
 
 .seo-content li {
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
-/* ── Ad container ───────────────────────────────────────────────────────────── */
-.ad-container {
-  max-width: 800px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 8px;
-}
-
-/* ── Site footer ─────────────────────────────────────────────────────────────── */
-/* Required for AdSense policy compliance */
+/* ── Site footer ─────────────────────────────────────────────────────────── */
 .site-footer {
   text-align: center;
-  padding: 12px 16px;
+  padding: 10px 16px;
   color: #666;
   font-size: 0.78rem;
   font-family: Arial, Helvetica, sans-serif;
   border-top: 1px solid #222;
   background: #111;
-  /* Prevent footer from shifting layout on load (avoids CLS) */
   flex-shrink: 0;
+  width: 100%;
 }
 
 .site-footer a {
@@ -147,18 +142,31 @@ main {
   color: #fff;
 }
 
-/* ── Tablet (≤768px) ─────────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .seo-content {
-    padding: 0 12px 24px;
-  }
-
-  .ad-container {
-    padding: 0 4px;
+/* ── Desktop: canvas fills most of the viewport ──────────────────────────── */
+@media (min-width: 769px) {
+  #app {
+    /* On desktop give canvas most of the viewport height */
+    height: calc(100vh - 160px);
   }
 }
 
-/* ── Mobile (≤480px) ─────────────────────────────────────────────────────────── */
+/* ── Tablet (≤768px) ─────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  canvas {
+    border-radius: 6px;
+  }
+
+  .seo-content {
+    padding: 0 12px 16px;
+    font-size: 0.78rem;
+  }
+
+  .ad-container {
+    padding: 2px 4px;
+  }
+}
+
+/* ── Mobile (≤480px) ─────────────────────────────────────────────────────── */
 @media (max-width: 480px) {
   canvas {
     border-radius: 4px;
@@ -166,20 +174,30 @@ main {
   }
 
   .site-footer {
-    font-size: 0.72rem;
-    padding: 10px 12px;
+    font-size: 0.7rem;
+    padding: 8px 10px;
   }
 
   .seo-content {
-    font-size: 0.78rem;
-    padding: 0 10px 20px;
+    font-size: 0.74rem;
+    padding: 0 10px 12px;
+    margin-top: 8px;
   }
 }
 
-/* ── Reduced motion ──────────────────────────────────────────────────────────── */
-/* Respect user's OS-level "reduce motion" preference. The game itself
-   handles this at the Canvas level; here we just prevent any CSS
-   transitions from being distracting. */
+/* ── Landscape phone — give canvas max height ────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  .seo-content {
+    display: none; /* hide on tiny landscape to maximize game area */
+  }
+
+  .site-footer {
+    padding: 4px 12px;
+    font-size: 0.68rem;
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

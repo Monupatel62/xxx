@@ -17,6 +17,11 @@ export class GameOverScene extends Scene {
   private cause: GameOverCause = "time";
   private readonly unsubscribeGameOver: () => void;
 
+  // Small delay before accepting input — prevents accidental instant-restart
+  // if the touch that triggered game-over is still being processed.
+  private inputDelay: number = 0;
+  private static readonly INPUT_DELAY = 0.6; // seconds
+
   constructor(eventBus: EventBus, soundManager: SoundManager) {
     super();
     this.overlay = new GameOverOverlay();
@@ -29,7 +34,8 @@ export class GameOverScene extends Scene {
   }
 
   public enter(): void {
-    // No sound here — gameOver SFX is already played by PlayScene before switching.
+    // Reset delay every time we enter this scene
+    this.inputDelay = GameOverScene.INPUT_DELAY;
   }
 
   public exit(): void {
@@ -43,20 +49,42 @@ export class GameOverScene extends Scene {
   public update(deltaTime: number, input: Input): void {
     this.background.update(deltaTime);
 
-    if (input.isKeyPressed(KEY_ENTER) || input.isKeyPressed(KEY_SPACE)) {
-      this.soundManager.play("uiClick");
-      this.switchTo("play");
+    // Wait for input delay before accepting any restart input
+    if (this.inputDelay > 0) {
+      this.inputDelay -= deltaTime;
       return;
     }
 
+    // Keyboard
+    if (input.isKeyPressed(KEY_ENTER) || input.isKeyPressed(KEY_SPACE)) {
+      this.restart();
+      return;
+    }
+
+    // Mouse click
     if (input.isMousePressed()) {
-      this.soundManager.play("uiClick");
-      this.switchTo("play");
+      this.restart();
+      return;
+    }
+
+    // Touch tap — works on mobile play-again
+    if (input.isTouchPressed()) {
+      this.restart();
+      return;
     }
   }
 
   public render(renderer: Renderer): void {
     this.background.render(renderer);
-    this.overlay.render(renderer, { result: this.result, cause: this.cause });
+    this.overlay.render(renderer, {
+      result: this.result,
+      cause: this.cause,
+      inputReady: this.inputDelay <= 0,
+    });
+  }
+
+  private restart(): void {
+    this.soundManager.play("uiClick");
+    this.switchTo("play");
   }
 }

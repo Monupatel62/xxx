@@ -3,7 +3,7 @@
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
 >
-  <!-- Main game page — highest priority, weekly updates -->
+  <!-- ── Main game page ──────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/</loc>
     <lastmod>2025-09-10</lastmod>
@@ -16,7 +16,7 @@
     </image:image>
   </url>
 
-  <!-- About page — game guide, controls, tips -->
+  <!-- ── About / How to Play page ────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/about.html</loc>
     <lastmod>2025-09-10</lastmod>
@@ -24,7 +24,47 @@
     <priority>0.8</priority>
   </url>
 
-  <!-- Privacy Policy -->
+  <!-- ── Blog index ───────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://catchthecoins.netlify.app/blog/</loc>
+    <lastmod>2025-09-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ── Blog post 1 ──────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://catchthecoins.netlify.app/blog/how-to-play-catch-the-coin.html</loc>
+    <lastmod>2025-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ── Blog post 2 ──────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://catchthecoins.netlify.app/blog/how-to-get-high-score-catch-the-coin.html</loc>
+    <lastmod>2025-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ── Blog post 3 ──────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://catchthecoins.netlify.app/blog/coin-types-catch-the-coin.html</loc>
+    <lastmod>2025-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ── Blog post 4 ──────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://catchthecoins.netlify.app/blog/best-free-browser-arcade-games.html</loc>
+    <lastmod>2025-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- ── Privacy Policy ───────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/privacy.html</loc>
     <lastmod>2025-09-10</lastmod>
@@ -32,7 +72,7 @@
     <priority>0.4</priority>
   </url>
 
-  <!-- Terms of Use -->
+  <!-- ── Terms of Use ─────────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/terms.html</loc>
     <lastmod>2025-09-10</lastmod>

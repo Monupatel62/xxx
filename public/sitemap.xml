@@ -64,6 +64,14 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- ── Blog post 5 ──────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://catchthecoins.netlify.app/blog/how-to-improve-reflexes-arcade-games.html</loc>
+    <lastmod>2025-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- ── Privacy Policy ───────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/privacy.html</loc>

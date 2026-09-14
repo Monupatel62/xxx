@@ -80,6 +80,14 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- ── Blog post 7 ──────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://catchthecoins.netlify.app/blog/why-high-score-games-are-addictive.html</loc>
+    <lastmod>2025-09-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- ── Privacy Policy ───────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/privacy.html</loc>

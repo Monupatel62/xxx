@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -140,7 +140,48 @@
         .reason-card { flex-direction: column; gap: 8px; }
         .comp-table { font-size: 0.78rem; }
         .comp-table th, .comp-table td { padding: 8px 10px; }
+      }      /* -- Play Now Bar --------------------------------------------------- */
+      .play-now-bar {
+        background: linear-gradient(135deg, #14532d 0%, #166534 50%, #14532d 100%);
+        border-bottom: 2px solid rgba(74,222,128,0.4);
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        flex-shrink: 0;
+        flex-wrap: wrap;
       }
+      .play-now-bar span {
+        font-size: 0.85rem;
+        color: #86efac;
+        font-weight: 600;
+      }
+      .play-now-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 22px;
+        background: linear-gradient(135deg, #4ade80, #16a34a);
+        color: #fff !important;
+        font-size: 0.88rem;
+        font-weight: bold;
+        text-decoration: none !important;
+        border-radius: 24px;
+        box-shadow: 0 0 16px rgba(74,222,128,0.4);
+        transition: transform 0.15s, box-shadow 0.15s;
+        white-space: nowrap;
+      }
+      .play-now-btn:hover, .play-now-btn:focus {
+        transform: scale(1.05);
+        box-shadow: 0 0 24px rgba(74,222,128,0.6);
+        outline: none;
+      }
+      /* Play Now Bar */
+      .play-now-bar{background:linear-gradient(135deg,#052e16,#14532d,#052e16);border-bottom:2px solid rgba(74,222,128,0.35);padding:11px 20px;display:flex;align-items:center;justify-content:center;gap:14px;flex-shrink:0;flex-wrap:wrap;}
+      .play-now-bar p{font-size:0.82rem;color:#86efac;font-weight:600;margin:0;}
+      .play-now-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 24px;background:linear-gradient(135deg,#4ade80,#16a34a);color:#fff!important;font-size:0.9rem;font-weight:bold;text-decoration:none!important;border-radius:24px;box-shadow:0 0 18px rgba(74,222,128,0.45);transition:transform 0.15s,box-shadow 0.15s;white-space:nowrap;}
+      .play-now-btn:hover,.play-now-btn:focus{transform:scale(1.06);box-shadow:0 0 28px rgba(74,222,128,0.7);outline:none;}
     </style>
   </head>
   <body>
@@ -154,7 +195,10 @@
         </ul>
       </div>
     </nav>
-
+    <div class="play-now-bar" role="complementary" aria-label="Play the game">
+      <p>&#127918; Free browser arcade game &mdash; no download, instant play</p>
+      <a href="/" class="play-now-btn">&#9654;&#xFE0F; Play Now Free</a>
+    </div>
     <article class="article-wrap" itemscope itemtype="https://schema.org/BlogPosting">
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href="/">Home</a><span>/</span>

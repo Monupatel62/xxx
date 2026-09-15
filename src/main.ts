@@ -58,7 +58,52 @@ window.addEventListener("appinstalled", () => {
   deferredInstallPrompt = null;
 });
 
-// ── Fullscreen helpers ────────────────────────────────────────────────────────
+// ── Ad management ────────────────────────────────────────────────────────────
+// Hide all ad overlays during gameplay so they don't cover the canvas.
+// Show them again on game over / menu screens.
+
+export function hideAds(): void {
+  // Add a class to body that CSS uses to hide ad overlays
+  document.body.classList.add("game-playing");
+}
+
+export function showAds(): void {
+  document.body.classList.remove("game-playing");
+  // Trigger ad network to show an interstitial/vignette on game over
+  // This calls the ad network's built-in show method if available
+  try {
+    // Multitag / Pleasant tag — trigger vignette/interstitial
+    if (typeof (window as any).showAd === "function") {
+      (window as any).showAd();
+    }
+    // Try common ad network trigger methods
+    if (typeof (window as any).__adP === "object" && (window as any).__adP?.show) {
+      (window as any).__adP.show();
+    }
+    // Push notification ad network trigger
+    if (typeof (window as any).Adcash !== "undefined") {
+      (window as any).Adcash?.show?.();
+    }
+  } catch {
+    // Silently ignore if ad network API not available
+  }
+}
+
+// Trigger ad on game over — call this when showing game over screen
+export function triggerGameOverAd(): void {
+  showAds();
+  // Re-initialize adsbygoogle slots if present (for display ads)
+  try {
+    const ads = document.querySelectorAll(".adsbygoogle[data-ad-status='']");
+    ads.forEach(() => {
+      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+    });
+  } catch {
+    // ignore
+  }
+}
+
+
 export async function enterFullscreen(): Promise<void> {
   try {
     const el = document.documentElement;

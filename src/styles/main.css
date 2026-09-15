@@ -683,3 +683,23 @@ canvas {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Ad overlay blocking during gameplay ────────────────────────────────────
+   body.game-playing is added by PlayScene.enter() and removed by
+   PlayScene.exit() — so ad overlays cannot cover canvas during play.
+─────────────────────────────────────────────────────────────────────────── */
+
+/* Hide ad network iframes during gameplay */
+body.game-playing iframe {
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide any floating div overlay injected by ad network during gameplay.
+   Targets top-level divs that are NOT our own elements. */
+body.game-playing > div:not(#app):not([class*="site"]):not([class*="nav"]):not([class*="play-now"]),
+body.game-playing > ins,
+body.game-playing > iframe {
+  display: none !important;
+  pointer-events: none !important;
+}

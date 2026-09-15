@@ -14,6 +14,7 @@ import { BackgroundRenderer } from "../effects/BackgroundRenderer";
 import { FloatingTextManager } from "../effects/FloatingTextManager";
 import { ScreenShake } from "../effects/ScreenShake";
 import { StageAnnouncement } from "../effects/StageAnnouncement";
+import { hideAds, showAds } from "../main";
 import { HUD } from "../ui/HUD";
 import { PauseOverlay } from "../ui/PauseOverlay";
 import { MobileControls } from "../ui/MobileControls";
@@ -85,6 +86,8 @@ export class PlayScene extends Scene {
   }
 
   public enter(): void {
+    // Hide ads during gameplay — prevent overlays covering canvas
+    hideAds();
     this.player.reset(GAME_WIDTH / 2 - PLAYER_WIDTH / 2);
     this.spawnManager.reset();
     this.scoreManager.reset();
@@ -103,6 +106,8 @@ export class PlayScene extends Scene {
 
   public exit(): void {
     this.soundManager.stopMusic();
+    // Show ads again when leaving play scene (game over / back to menu)
+    showAds();
   }
 
   public update(deltaTime: number, input: Input): void {

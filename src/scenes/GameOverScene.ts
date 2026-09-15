@@ -8,7 +8,7 @@ import { EVT_GAME_OVER, GameResult } from "../managers/ScoreManager";
 import { KEY_ENTER, KEY_SPACE } from "../config/InputConfig";
 import { GameOverOverlay } from "../ui/GameOverOverlay";
 import { GameOverCause, GameOverPayload } from "./PlayScene";
-import { enterFullscreen } from "../main";
+import { enterFullscreen, triggerGameOverAd } from "../main";
 
 export class GameOverScene extends Scene {
   private readonly overlay: GameOverOverlay;
@@ -34,6 +34,8 @@ export class GameOverScene extends Scene {
 
   public enter(): void {
     this.inputDelay = GameOverScene.INPUT_DELAY;
+    // Trigger ad on game over — vignette/interstitial
+    triggerGameOverAd();
   }
 
   public exit(): void {}

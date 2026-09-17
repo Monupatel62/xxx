@@ -104,6 +104,14 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- ── Blog post 10 ─────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://catchthecoins.netlify.app/blog/how-to-play-online-games-better.html</loc>
+    <lastmod>2025-09-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- ── Privacy Policy ───────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/privacy.html</loc>

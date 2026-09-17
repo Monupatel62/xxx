@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset
   xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
@@ -6,7 +6,7 @@
   <!-- ── Main game page ──────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/</loc>
-    <lastmod>2025-09-10</lastmod>
+    <lastmod>2025-09-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -19,7 +19,7 @@
   <!-- ── About / How to Play page ────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/about.html</loc>
-    <lastmod>2025-09-10</lastmod>
+    <lastmod>2025-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -115,7 +115,7 @@
   <!-- ── Privacy Policy ───────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/privacy.html</loc>
-    <lastmod>2025-09-10</lastmod>
+    <lastmod>2025-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>
@@ -123,7 +123,7 @@
   <!-- ── Terms of Use ─────────────────────────────────────────────────────── -->
   <url>
     <loc>https://catchthecoins.netlify.app/terms.html</loc>
-    <lastmod>2025-09-10</lastmod>
+    <lastmod>2025-09-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.4</priority>
   </url>

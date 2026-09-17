@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Catch the Coin",
   "short_name": "CatchCoin",
   "description": "Free browser arcade game. Catch falling gold coins with a basket, beat your high score across 3 difficulty stages. No download required.",
@@ -19,9 +19,9 @@
   ],
   "screenshots": [
     {
-      "src": "/og-image.svg",
+      "src": "/og-image.png",
       "sizes": "1200x630",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "label": "Catch the Coin gameplay"
     }
   ]

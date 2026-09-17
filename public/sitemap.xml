@@ -10,7 +10,7 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://catchthecoins.netlify.app/og-image.svg</image:loc>
+      <image:loc>https://catchthecoins.netlify.app/og-image.png</image:loc>
       <image:title>Catch the Coin — Free Online Arcade Game</image:title>
       <image:caption>Move a basket to catch falling gold coins and beat your high score. Free browser arcade game, no download required.</image:caption>
     </image:image>

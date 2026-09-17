@@ -41,6 +41,9 @@
 /og-image.svg
   Cache-Control: public, max-age=604800
 
+/og-image.png
+  Cache-Control: public, max-age=604800
+
 # ── PWA / manifest ─────────────────────────────────────────────────────────────
 /manifest.webmanifest
   Cache-Control: public, max-age=86400

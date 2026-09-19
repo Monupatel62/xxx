@@ -23,7 +23,7 @@ function unlockAudio(): void {
 window.addEventListener("pointerdown", unlockAudio);
 window.addEventListener("keydown", unlockAudio);
 
-// ── PWA Install prompt ────────────────────────────────────────────────────────
+// ── PWA Install prompt ───────────────────────────────────────────────────────
 let deferredInstallPrompt: Event | null = null;
 const installBtn = document.getElementById("pwa-install-btn") as HTMLButtonElement | null;
 
@@ -31,23 +31,18 @@ window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
   if (installBtn) installBtn.style.display = "inline-flex";
-  // Also tell MenuScene (set after scene registration below)
 });
 
 if (installBtn) {
   installBtn.addEventListener("click", async () => {
     if (!deferredInstallPrompt) return;
-    // Show the native install prompt
     (deferredInstallPrompt as any).prompt();
     const { outcome } = await (deferredInstallPrompt as any).userChoice;
-    if (outcome === "accepted") {
-      installBtn.style.display = "none";
-    }
+    if (outcome === "accepted") installBtn.style.display = "none";
     deferredInstallPrompt = null;
   });
 }
 
-// Hide install button if already installed (standalone mode)
 if (window.matchMedia("(display-mode: standalone)").matches ||
     window.matchMedia("(display-mode: fullscreen)").matches) {
   if (installBtn) installBtn.style.display = "none";
@@ -57,52 +52,6 @@ window.addEventListener("appinstalled", () => {
   if (installBtn) installBtn.style.display = "none";
   deferredInstallPrompt = null;
 });
-
-// ── Ad management ────────────────────────────────────────────────────────────
-// Hide all ad overlays during gameplay so they don't cover the canvas.
-// Show them again on game over / menu screens.
-
-export function hideAds(): void {
-  // Add a class to body that CSS uses to hide ad overlays
-  document.body.classList.add("game-playing");
-}
-
-export function showAds(): void {
-  document.body.classList.remove("game-playing");
-  // Trigger ad network to show an interstitial/vignette on game over
-  // This calls the ad network's built-in show method if available
-  try {
-    // Multitag / Pleasant tag — trigger vignette/interstitial
-    if (typeof (window as any).showAd === "function") {
-      (window as any).showAd();
-    }
-    // Try common ad network trigger methods
-    if (typeof (window as any).__adP === "object" && (window as any).__adP?.show) {
-      (window as any).__adP.show();
-    }
-    // Push notification ad network trigger
-    if (typeof (window as any).Adcash !== "undefined") {
-      (window as any).Adcash?.show?.();
-    }
-  } catch {
-    // Silently ignore if ad network API not available
-  }
-}
-
-// Trigger ad on game over — call this when showing game over screen
-export function triggerGameOverAd(): void {
-  showAds();
-  // Re-initialize adsbygoogle slots if present (for display ads)
-  try {
-    const ads = document.querySelectorAll(".adsbygoogle[data-ad-status='']");
-    ads.forEach(() => {
-      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-    });
-  } catch {
-    // ignore
-  }
-}
-
 
 export async function enterFullscreen(): Promise<void> {
   try {
@@ -116,30 +65,25 @@ export async function enterFullscreen(): Promise<void> {
     } else if ((el as any).msRequestFullscreen) {
       await (el as any).msRequestFullscreen();
     }
-    // On mobile — also lock to landscape
     try {
       await (screen.orientation as any).lock("landscape");
     } catch {
-      // Orientation lock not supported on desktop/some browsers — silently ignore
+      // Orientation lock is optional.
     }
   } catch {
-    // Fullscreen denied or not supported — game still works in normal mode
+    // Fullscreen is optional; the game still works in normal mode.
   }
 }
 
 export function exitFullscreen(): void {
   try {
-    if (document.fullscreenElement) {
-      document.exitFullscreen?.();
-    }
+    if (document.fullscreenElement) document.exitFullscreen?.();
   } catch {
-    // ignore
+    // Ignore unsupported or denied fullscreen requests.
   }
 }
 
-// ── iOS / fallback install hint ───────────────────────────────────────────────
 function showIOSInstallHint(): void {
-  // Remove existing if any
   document.getElementById("ios-install-hint")?.remove();
 
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
@@ -166,16 +110,12 @@ function showIOSInstallHint(): void {
     animation:slideUp 0.3s ease;
   `;
   document.body.appendChild(overlay);
-
-  // Auto-close after 8 seconds
   setTimeout(() => overlay.remove(), 8000);
 }
 
-// ── Scene registration ────────────────────────────────────────────────────────
 const eventBus = game.getEventBus();
 const menuScene = new MenuScene(soundManager, enterFullscreen, () => {
   if (deferredInstallPrompt) {
-    // Android/Chrome — native prompt
     (deferredInstallPrompt as any).prompt();
     (deferredInstallPrompt as any).userChoice.then(({ outcome }: { outcome: string }) => {
       if (outcome === "accepted") {
@@ -185,7 +125,6 @@ const menuScene = new MenuScene(soundManager, enterFullscreen, () => {
       deferredInstallPrompt = null;
     });
   } else {
-    // iOS Safari / no prompt — show instruction overlay
     showIOSInstallHint();
   }
 });
@@ -196,20 +135,14 @@ window.addEventListener("beforeinstallprompt", (e) => {
   if (installBtn) installBtn.style.display = "inline-flex";
   menuScene.setInstallAvailable(true);
 });
-window.addEventListener("appinstalled", () => {
-  menuScene.setInstallAvailable(false);
-});
+window.addEventListener("appinstalled", () => menuScene.setInstallAvailable(false));
 
-// Show install button if NOT already running as installed PWA
 const isInstalled =
   window.matchMedia("(display-mode: standalone)").matches ||
   window.matchMedia("(display-mode: fullscreen)").matches ||
   (navigator as any).standalone === true;
 
-if (!isInstalled) {
-  // Show install button immediately as fallback (works for iOS Safari Share sheet too)
-  menuScene.forceShowInstall();
-}
+if (!isInstalled) menuScene.forceShowInstall();
 
 game.registerScene("menu", menuScene);
 game.registerScene("play", new PlayScene(eventBus, soundManager));

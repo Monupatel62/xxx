@@ -59,48 +59,53 @@ window.addEventListener("appinstalled", () => {
 });
 
 // ── Ad management ────────────────────────────────────────────────────────────
-// Hide all ad overlays during gameplay so they don't cover the canvas.
-// Show them again on game over / menu screens.
+// Hides ad overlays during active gameplay (canvas on top).
+// Shows and re-triggers ads on game over / menu screens.
 
 export function hideAds(): void {
-  // Add a class to body that CSS uses to hide ad overlays
   document.body.classList.add("game-playing");
 }
 
 export function showAds(): void {
   document.body.classList.remove("game-playing");
-  // Trigger ad network to show an interstitial/vignette on game over
-  // This calls the ad network's built-in show method if available
-  try {
-    // Multitag / Pleasant tag — trigger vignette/interstitial
-    if (typeof (window as any).showAd === "function") {
-      (window as any).showAd();
-    }
-    // Try common ad network trigger methods
-    if (typeof (window as any).__adP === "object" && (window as any).__adP?.show) {
-      (window as any).__adP.show();
-    }
-    // Push notification ad network trigger
-    if (typeof (window as any).Adcash !== "undefined") {
-      (window as any).Adcash?.show?.();
-    }
-  } catch {
-    // Silently ignore if ad network API not available
-  }
 }
 
-// Trigger ad on game over — call this when showing game over screen
+// Called on GameOverScene.enter() — waits 800ms then triggers ad formats.
+// Delay ensures the game-over canvas is rendered before ad overlay appears.
 export function triggerGameOverAd(): void {
   showAds();
-  // Re-initialize adsbygoogle slots if present (for display ads)
-  try {
-    const ads = document.querySelectorAll(".adsbygoogle[data-ad-status='']");
-    ads.forEach(() => {
-      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-    });
-  } catch {
-    // ignore
-  }
+
+  setTimeout(() => {
+    try {
+      // ── Monetag / 5gvci push-notification ad trigger ──────────────────
+      // Their SW-based ad uses the global _mntg object after SW registers.
+      const w = window as any;
+
+      if (typeof w._mntg?.showInterstitial === "function") {
+        w._mntg.showInterstitial();
+      }
+      if (typeof w._mntg?.showVignette === "function") {
+        w._mntg.showVignette();
+      }
+
+      // ── Monetag / quge5 Multitag trigger ─────────────────────────────
+      // Multitag auto-fires on load; on SPA navigation call reinit if exposed
+      if (typeof w.__adp_reinit === "function") {
+        w.__adp_reinit();
+      }
+      if (typeof w.adpushup?.triggerAd === "function") {
+        w.adpushup.triggerAd();
+      }
+
+      // ── Generic fallbacks used by various ad networks ─────────────────
+      if (typeof w.showAd === "function")          { w.showAd(); }
+      if (typeof w.__adP?.show === "function")     { w.__adP.show(); }
+      if (typeof w.monetag?.show === "function")   { w.monetag.show(); }
+
+    } catch {
+      // Silently ignore — ad network API unavailable
+    }
+  }, 800);
 }
 
 

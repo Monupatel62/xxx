@@ -687,19 +687,24 @@ canvas {
 /* ── Ad overlay blocking during gameplay ────────────────────────────────────
    body.game-playing is added by PlayScene.enter() and removed by
    PlayScene.exit() — so ad overlays cannot cover canvas during play.
+
+   IMPORTANT: We only use pointer-events + visibility (NOT display:none)
+   so the ad network's internal state stays intact and ads resume properly
+   when the class is removed on game over / menu.
 ─────────────────────────────────────────────────────────────────────────── */
 
-/* Hide ad network iframes during gameplay */
-body.game-playing iframe {
+/* During gameplay: make ad iframes non-interactive and invisible
+   but keep them in the DOM so they can resume after game ends */
+body.game-playing iframe:not([src*="googletagmanager"]):not([src*="google-analytics"]) {
   pointer-events: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
 }
 
-/* Hide any floating div overlay injected by ad network during gameplay.
-   Targets top-level divs that are NOT our own elements. */
-body.game-playing > div:not(#app):not([class*="site"]):not([class*="nav"]):not([class*="play-now"]),
-body.game-playing > ins,
-body.game-playing > iframe {
-  display: none !important;
+/* Top-level ad divs/overlays injected by ad networks — hide during play */
+body.game-playing > div:not(#app):not([class*="site"]):not([class*="nav"]):not([class*="footer"]):not([id="pwa-install"]):not([id="ios-install-hint"]),
+body.game-playing > ins {
   pointer-events: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
 }

@@ -6,6 +6,15 @@
   NODE_VERSION = "22"
   NPM_FLAGS = "--prefer-offline"
 
+# ── Ad network proxy — serves ad script from own domain ───────────────────────
+# Ad blockers block quge5.com directly but not our own domain.
+# This proxies the ad script through catchthecoins.netlify.app
+[[redirects]]
+  from = "/ads/tag.js"
+  to = "https://quge5.com/88/tag.min.js"
+  status = 200
+  force = true
+
 # ── SPA fallback ───────────────────────────────────────────────────────────────
 # Serve index.html for all routes the SPA handles client-side.
 # The 404 rule must come FIRST so unmatched paths get the proper 404 page.

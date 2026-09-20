@@ -40,10 +40,10 @@
     </script>
 
     <!-- Ad Network — Monetag Multitag
-         data-cfasync="false" prevents Cloudflare Rocket Loader from
-         deferring this script, which would break ad initialization.
-         No async/defer so it initializes before the game canvas loads. -->
-    <script src="https://quge5.com/88/tag.min.js" data-zone="278435" data-cfasync="false"></script>
+         Served via own domain proxy (/ads/tag.js → quge5.com)
+         to reduce ad blocker interference.
+         data-cfasync="false" prevents Cloudflare from deferring this. -->
+    <script src="/ads/tag.js" data-zone="278435" data-cfasync="false"></script>
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/favicon.svg" />
@@ -357,6 +357,42 @@
           navigator.serviceWorker.register('/sw.js');
         });
       }
+    </script>
+
+    <!-- Ad blocker detection — shows polite message if ads are blocked -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          // Check if ad script loaded by testing for a known global it sets
+          var adLoaded = typeof window.__adp !== 'undefined'
+            || typeof window._mntg !== 'undefined'
+            || document.querySelector('iframe[src*="quge5"]')
+            || document.querySelector('iframe[src*="5gvci"]');
+
+          if (!adLoaded && !document.body.classList.contains('game-playing')) {
+            var msg = document.createElement('div');
+            msg.id = 'adblock-msg';
+            msg.innerHTML =
+              '<span>&#127918; This game is free because of ads.</span>' +
+              '<span>Please disable your ad blocker to support it.</span>' +
+              '<button onclick="document.getElementById(\'adblock-msg\').remove()" ' +
+              'style="background:transparent;border:1px solid #4ade80;color:#4ade80;' +
+              'padding:4px 12px;border-radius:12px;cursor:pointer;font-size:0.75rem;">OK</button>';
+            msg.style.cssText =
+              'position:fixed;bottom:60px;left:50%;transform:translateX(-50%);' +
+              'background:rgba(10,8,24,0.95);border:1px solid rgba(74,222,128,0.3);' +
+              'border-radius:10px;padding:10px 16px;display:flex;align-items:center;' +
+              'gap:12px;font-size:0.78rem;color:#86efac;z-index:9999;' +
+              'font-family:Arial,sans-serif;max-width:90vw;flex-wrap:wrap;' +
+              'box-shadow:0 4px 20px rgba(0,0,0,0.5);';
+            document.body.appendChild(msg);
+            setTimeout(function() {
+              var el = document.getElementById('adblock-msg');
+              if (el) el.remove();
+            }, 8000);
+          }
+        }, 3000);
+      });
     </script>
   </body>
 </html>

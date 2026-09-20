@@ -63,7 +63,11 @@ window.addEventListener("appinstalled", () => {
 // Shows and re-triggers ads on game over / menu screens.
 
 export function hideAds(): void {
-  document.body.classList.add("game-playing");
+  // Small delay so ad script fully initializes before we hide overlays.
+  // Without this, hiding too early can prevent ad from ever loading.
+  setTimeout(() => {
+    document.body.classList.add("game-playing");
+  }, 300);
 }
 
 export function showAds(): void {
